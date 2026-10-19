@@ -2,6 +2,8 @@
 
 Run'n'gun façon *Metal Slug* sur l'album *Behind the Mask* de Vigilante, à 1 ou 2 joueurs. Le projet et ses étapes : [PLAN.md](PLAN.md).
 
+**Jouer en ligne : https://waner1er.github.io/Behind-the-mask-v2/** (publié par GitHub Pages à chaque push sur `main`, voir `.github/workflows/pages.yml`).
+
 ## Lancer
 
 ```sh
