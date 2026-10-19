@@ -10,7 +10,7 @@ export class MobileGuard {
     root.addEventListener('dblclick', (e) => e.preventDefault());
     root.addEventListener('gesturestart', (e) => e.preventDefault());       // pincement sur iPhone
     root.addEventListener('contextmenu', (e) => { if (!e.target.closest(MobileGuard.CONTROLS)) e.preventDefault(); });
-    if (matchMedia('(pointer: coarse)').matches) addEventListener('pointerdown', () => this.#landscape(), { once: true });
+    if (document.documentElement.classList.contains('is-touch')) addEventListener('pointerdown', () => this.#landscape(), { once: true });
   }
 
   #landscape() {

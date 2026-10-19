@@ -1,12 +1,56 @@
-/* Les commandes tactiles (reprises du premier jeu) : invisibles à la souris, elles flottent
-   par-dessus le jeu sur un téléphone en paysage. En portrait, on demande de tourner l'écran. */
-.touch, .rotate-hint { display: none; }
+/* Sur écran tactile (classe is-touch, posée dans le <head> de index.html), comme dans le premier
+   jeu : l'écran prend toute la place, les commandes flottent par-dessus (stick à gauche, six
+   boutons à droite, START en haut). Le téléphone tenu en portrait affiche toute la scène tournée
+   d'un quart de tour : on est obligé de jouer en paysage, même si la rotation est bloquée. */
+.touch { display: none; }
+
+.is-touch, .is-touch body {
+  touch-action: none;
+  overscroll-behavior: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+.is-touch body.game { padding: 0; height: 100dvh; overflow: hidden; background: #000; }
+.is-touch body.game > .help { display: none; }
+
+/* la scène : la taille de l'écran du téléphone (en paysage) */
+.is-touch .stage {
+  --w: 100vw;
+  --h: 100dvh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--w);
+  height: var(--h);
+  display: grid;
+  place-items: center;
+  background: #000;
+}
+/* tenu en portrait : la scène, aux dimensions inversées, tourne d'un quart de tour */
+@media (orientation: portrait) {
+  .is-touch .stage {
+    --w: 100dvh;
+    --h: 100vw;
+    transform-origin: top left;
+    transform: rotate(90deg) translateY(-100%);
+  }
+}
+
+/* l'écran le plus grand possible, en 16/9 ; le canvas remplit son cadre (le CSS décide de sa
+   taille, pas Phaser, qui mesurerait mal un conteneur tourné) */
+.is-touch .borne--game { width: min(var(--w), calc(var(--h) * 16 / 9)); padding: 0; border: 0; box-shadow: none; background: none; }
+.is-touch .borne--game::before, .is-touch .borne--game::after { display: none; }
+.is-touch .borne--game .borne__screen { border: 0; }
+.is-touch .borne__screen canvas { width: 100% !important; height: 100% !important; margin: 0 !important; }
+
+.is-touch .touch { display: block; }
+.touch-stick, .touch-buttons, .touch-start { position: absolute; z-index: 5; opacity: 0.7; }
 
 .touch-stick {
-  --size: min(124px, 34vh);
+  --size: min(124px, calc(var(--h) * 0.34));
   --kx: 0px;
   --ky: 0px;
-  position: fixed;
   left: max(16px, env(safe-area-inset-left));
   bottom: 16px;
   width: var(--size);
@@ -30,7 +74,6 @@
 
 /* six boutons, comme le pavé Q S D / W X C : la rangée du bas tire, saute, lance */
 .touch-buttons {
-  position: fixed;
   right: max(12px, env(safe-area-inset-right));
   bottom: 10px;
   display: grid;
@@ -47,7 +90,7 @@
 }
 .touch-btn__cap {
   --c: #888;
-  width: min(48px, 13vh);
+  width: min(48px, calc(var(--h) * 0.13));
   aspect-ratio: 1;
   padding: 0;
   border: 2px solid #000;
@@ -64,8 +107,7 @@
 .touch-btn__cap.is-pressed { transform: translateY(4px); box-shadow: 0 1px 0 #000; filter: brightness(1.15); }
 
 .touch-start {
-  position: fixed;
-  top: max(6px, env(safe-area-inset-top));
+  top: 6px;
   left: 50%;
   transform: translateX(-50%);
   padding: 7px 12px;
@@ -79,45 +121,4 @@
 }
 .touch-start.is-pressed { transform: translate(-50%, 2px); box-shadow: 0 1px 0 #6f6a62; }
 
-.touch *, .touch { touch-action: none; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
-
-@media (pointer: coarse) {
-  html, body { touch-action: none; overscroll-behavior: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
-}
-
-/* téléphone en paysage : l'écran le plus grand possible (16/9), les commandes par-dessus */
-@media (pointer: coarse) and (orientation: landscape) {
-  body.game { padding: 0; height: 100dvh; justify-content: center; background: #000; }
-  body.game > .help { display: none; }
-  body.game .borne--game { width: min(100vw, calc(100dvh * 16 / 9)); padding: 0; border: 0; box-shadow: none; background: none; }
-  .borne--game::before, .borne--game::after { display: none; }
-  .borne--game .borne__screen { border: 0; }
-  .touch { display: block; }
-  .touch-stick, .touch-buttons, .touch-start { z-index: 5; opacity: 0.7; }
-}
-
-/* téléphone en portrait : on demande de le tourner */
-@media (pointer: coarse) and (orientation: portrait) {
-  body.game > * { visibility: hidden; }
-  .rotate-hint {
-    position: fixed;
-    inset: 0;
-    z-index: 10;
-    display: grid;
-    place-content: center;
-    gap: 24px;
-    text-align: center;
-    font-size: 12px;
-    line-height: 1.8;
-    color: var(--text);
-    background: var(--bg);
-    visibility: visible !important;
-  }
-  .rotate-hint p { margin: 0; }
-  .rotate-hint__icon { font-size: 64px; animation: rotate-phone 2s ease-in-out infinite; }
-}
-
-@keyframes rotate-phone {
-  0%, 30% { transform: rotate(0deg); }
-  60%, 100% { transform: rotate(-90deg); }
-}
+.touch, .touch * { touch-action: none; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }

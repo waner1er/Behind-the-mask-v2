@@ -40,7 +40,7 @@ Les flèches, plus 6 boutons comme sur une borne (pavé Q S D / W X C d'un clavi
 
 Le jeu sait gérer un 2e joueur, mais c'est désactivé pour l'instant (`TWO_PLAYERS` dans `src/config/controls.js`).
 
-**Sur téléphone** (comme le premier jeu) : en paysage, le jeu prend tout l'écran, avec un stick tactile à gauche, les 6 boutons à droite (COUP, VISER, SKATE / TIR, SAUT, VINYLE) et START en haut. En portrait, un message demande de tourner le téléphone. Au premier appui, le jeu passe en plein écran et en paysage si le navigateur le permet, et sur Android, le téléphone vibre sur les gros coups.
+**Sur téléphone** (comme le premier jeu) : en paysage, le jeu prend tout l'écran, avec un stick tactile à gauche, les 6 boutons à droite (COUP, VISER, SKATE / TIR, SAUT, VINYLE) et START en haut. Tenu en portrait, le jeu s'affiche tourné d'un quart de tour : on est obligé de tourner le téléphone. Les commandes sont là dès l'écran d'accueil, où un appui sur l'écran vaut aussi START. Au premier appui, le jeu passe en plein écran et en paysage si le navigateur le permet, et sur Android, le téléphone vibre sur les gros coups.
 
 Commandes particulières :
 - **profondeur** : sur le sol, haut et bas déplacent vers le fond du trottoir ou vers l'avant, jusque sur la chaussée, à l'arrêt comme en marchant. On ne touche que ce qui est à peu près sur la même file, et on passe devant ou derrière les caisses. Pour viser en haut ou s'accroupir sur le sol, on tient S ; en l'air et sur les plateformes, haut et bas visent ;

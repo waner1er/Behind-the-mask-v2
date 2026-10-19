@@ -30,8 +30,11 @@ export class SplashScene extends Phaser.Scene {
     this.press = this.add.text(W / 2, 270, 'PUSH START!', { fontFamily: FONT, fontSize: '14px', color: '#c8d0ff' })
       .setOrigin(0.5).setStroke('#1a1a40', 5);
     this.add.text(W / 2, 300, '© 2026 VIGILANTE', { ...TEXT_8, color: COLORS.text }).setOrigin(0.5).setStroke('#000000', 3);
-    this.add.text(14, H - 8, 'CREDITS 99', { ...TEXT_8, color: '#c8d0ff' }).setOrigin(0, 1).setStroke('#000000', 3);
-    this.add.text(W - 14, H - 8, 'CREDITS 99', { ...TEXT_8, color: '#c8d0ff' }).setOrigin(1, 1).setStroke('#000000', 3);
+    // les crédits dans les coins, sauf sur téléphone où les commandes tactiles s'y trouvent
+    if (!document.documentElement.classList.contains('is-touch')) {
+      this.add.text(14, H - 8, 'CREDITS 99', { ...TEXT_8, color: '#c8d0ff' }).setOrigin(0, 1).setStroke('#000000', 3);
+      this.add.text(W - 14, H - 8, 'CREDITS 99', { ...TEXT_8, color: '#c8d0ff' }).setOrigin(1, 1).setStroke('#000000', 3);
+    }
     this.pads = PLAYER_KEYS.map((k, i) => new KeyboardPad(this.input.keyboard, k, { touch: i === 0 }));
     this.sfx = new SoundPlayer(this);
     this.t = 0;

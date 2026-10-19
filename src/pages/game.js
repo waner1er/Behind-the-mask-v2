@@ -17,7 +17,12 @@ const scenes = [
   SplashScene, SelectScene, GameScene, GameHudScene, DemoScene, HudScene,
 ];
 if (import.meta.env.DEV) scenes.push((await import('../devtools/EditorScene.js')).EditorScene);
-createGame(document.getElementById('screen'), scenes);
-// sur téléphone : stick et boutons tactiles, ni zoom ni défilement, plein écran en paysage
-new TouchControls().bind();
+const game = createGame(document.getElementById('screen'), scenes);
+// Sur téléphone : stick et boutons tactiles, ni zoom ni défilement, plein écran en paysage.
+// Un appui sur l'écran vaut START à l'accueil, à la sélection et pendant la démo.
+const tapStarts = [SCENES.title, SCENES.select, SCENES.demo];
+new TouchControls({
+  screen: document.getElementById('screen'),
+  screenTap: () => (tapStarts.some((k) => game.scene.isActive(k)) ? 'start' : null),
+}).bind();
 new MobileGuard().bind();

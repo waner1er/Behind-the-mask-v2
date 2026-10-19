@@ -7,14 +7,20 @@
 <meta name="color-scheme" content="dark">
 <!-- fond sombre tout de suite, avant le CSS (chargé par le JS) : pas d'écran blanc -->
 <style>html, body { background: #14110e; }</style>
+<!-- écran tactile (téléphone, tablette) : décidé tout de suite, avant le premier affichage -->
+<script>
+  if (navigator.maxTouchPoints > 0 && (matchMedia('(any-pointer: coarse)').matches || !matchMedia('(hover: hover)').matches
+    || /Mobi|Android|iPhone|iPad/.test(navigator.userAgent))) document.documentElement.classList.add('is-touch');
+</script>
 <title>Behind the Mask</title>
 <link rel="stylesheet" href="/src/styles/pages/game.css">
 <script type="module" src="/src/pages/game.js"></script>
 </head>
 <body class="game">
+<!-- la scène : l'écran et, sur téléphone, les commandes tactiles par-dessus. Tenu en portrait,
+     le téléphone affiche le tout tourné d'un quart de tour : on joue forcément en paysage. -->
+<main class="stage">
 <div class="borne borne--game"><div class="borne__screen" id="screen"></div></div>
-
-<!-- les commandes tactiles (téléphone, en paysage) : stick à gauche, boutons à droite, START -->
 <div class="touch" aria-hidden="true">
   <div class="touch-stick" data-touch-stick><span class="touch-stick__knob"></span></div>
   <div class="touch-buttons">
@@ -27,7 +33,7 @@
   </div>
   <button class="touch-start" type="button" data-action="start">START</button>
 </div>
-<div class="rotate-hint"><p class="rotate-hint__icon">📱</p><p>TOURNE TON TÉLÉPHONE</p></div>
+</main>
 <p class="help">
   <kbd>←→</kbd> avancer · <kbd>↑</kbd><kbd>↓</kbd> vers le fond / vers l'avant · <kbd>S</kbd> + <kbd>↑</kbd> viser en haut · <kbd>S</kbd> + <kbd>↓</kbd> s'accroupir<br>
   <kbd>W</kbd> tir · <kbd>X</kbd> saut · <kbd>C</kbd> vinyle · <kbd>Q</kbd> corps à corps · <kbd>D</kbd> attaque en skate · <kbd>ENTRÉE</kbd> start (pause)<br>
