@@ -1,0 +1,4 @@
+/* Tiroir dépliable (<details>) des outils : galerie, inspecteur. */
+.drawer { width: min(100%, 1200px); margin-top: 16px; background: var(--metal); border: 2px solid #000; padding: 10px; }
+.drawer > summary { font-size: 10px; color: var(--accent); cursor: pointer; }
+.drawer .group { margin-top: 10px; }

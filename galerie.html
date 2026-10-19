@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.png">
+<meta name="color-scheme" content="dark">
+<!-- fond sombre tout de suite, avant le CSS (chargé par le JS) : pas d'écran blanc -->
+<style>html, body { background: #14110e; }</style>
+<title>Behind the Mask — galerie</title>
+<link rel="stylesheet" href="/src/styles/pages/gallery.css">
+<script type="module" src="/src/pages/gallery.js"></script>
+</head>
+<body>
+<h1>BEHIND THE MASK</h1>
+<p class="sub">Galerie : les héros et les méchants en action</p>
+
+<div class="group group--wide" id="anims"><span>ANIMATION</span></div>
+<div class="parade parade--page" id="parade"></div>
+<p class="help">
+  Orange : le perso n'a pas encore cette anim, il joue son remplacement.<br>
+  Un méchant apparaît ici dès que sa planche est découpée (tools/build_sprites.py).<br>
+  Le jeu : <a href="./">index.html</a> · le banc d'essai : <a href="demo.html">demo.html</a>.
+</p>
+</body>
+</html>

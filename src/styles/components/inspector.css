@@ -1,0 +1,10 @@
+/* Inspecteur des images : l'état de chaque planche, puis une rangée par anim. */
+.status { font-size: 8px; line-height: 2; color: var(--muted); margin: 10px 0; }
+.status b { color: var(--text); font-weight: normal; }
+
+.anim { display: flex; align-items: flex-end; gap: 10px; padding: 6px 0; border-top: 1px solid #0006; overflow-x: auto; }
+.anim > span { flex: 0 0 170px; font-size: 8px; line-height: 1.8; }
+.anim .new { color: var(--ok); }
+.anim .old { color: var(--accent); }
+.anim .none { color: var(--ko); }
+.anim canvas { background: #2a2f3a; flex: 0 0 auto; }

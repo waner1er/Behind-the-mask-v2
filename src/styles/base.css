@@ -1,0 +1,41 @@
+/* Les couleurs du jeu, la police et la mise en page commune à toutes les pages. */
+:root {
+  --bg: #14110e;
+  --metal: #2b2620;
+  --metal-hi: #4a4136;
+  --rivet: #6b5d4a;
+  --text: #f1dcb4;
+  --muted: #a8977a;
+  --accent: #f5a524;
+  --ok: #8fbf5a;
+  --ko: #e0605a;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Press Start 2P', ui-monospace, monospace;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 16px 40px;
+}
+
+h1 {
+  font-size: clamp(14px, 3vw, 26px);
+  letter-spacing: 2px;
+  margin: 0 0 6px;
+  color: var(--accent);
+  text-shadow: 3px 3px 0 #000;
+  text-align: center;
+}
+
+.sub { font-size: 10px; color: var(--muted); margin: 0 0 18px; text-align: center; line-height: 1.8; }
+.help { font-size: 8px; color: var(--muted); margin-top: 14px; text-align: center; line-height: 2; }
+.help a, kbd { color: var(--accent); }
+
+canvas { image-rendering: pixelated; }

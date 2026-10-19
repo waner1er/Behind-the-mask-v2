@@ -1,0 +1,13 @@
+/* Bouton de métal ; .on = choix en cours. */
+button {
+  font: inherit;
+  font-size: 9px;
+  color: var(--text);
+  background: linear-gradient(#5a4c3b, #3a3127);
+  border: 2px solid #000;
+  box-shadow: inset 0 1px 0 #8a765c;
+  padding: 8px 10px;
+  cursor: pointer;
+}
+button:hover { filter: brightness(1.2); }
+button.on { color: #111; background: linear-gradient(#ffd25a, var(--accent)); box-shadow: inset 0 1px 0 #fff3; }

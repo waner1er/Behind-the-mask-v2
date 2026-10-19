@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.png">
+<meta name="color-scheme" content="dark">
+<!-- fond sombre tout de suite, avant le CSS (chargé par le JS) : pas d'écran blanc -->
+<style>html, body { background: #14110e; }</style>
+<title>Behind the Mask</title>
+<link rel="stylesheet" href="/src/styles/pages/game.css">
+<script type="module" src="/src/pages/game.js"></script>
+</head>
+<body class="game">
+<div class="borne borne--game"><div class="borne__screen" id="screen"></div></div>
+<p class="help">
+  <kbd>←→</kbd> avancer · <kbd>↑</kbd><kbd>↓</kbd> vers le fond / vers l'avant · <kbd>S</kbd> + <kbd>↑</kbd> viser en haut · <kbd>S</kbd> + <kbd>↓</kbd> s'accroupir<br>
+  <kbd>W</kbd> tir · <kbd>X</kbd> saut · <kbd>C</kbd> vinyle · <kbd>Q</kbd> corps à corps · <kbd>D</kbd> attaque en skate · <kbd>ENTRÉE</kbd> start (pause)<br>
+  en l'air et sur les plateformes, <kbd>↑</kbd><kbd>↓</kbd> visent · <kbd>↓</kbd> + saut : descendre d'une plateforme
+</p>
+<p class="help"><a href="galerie.html">galerie</a> · <a href="demo.html">banc d'essai</a></p>
+</body>
+</html>

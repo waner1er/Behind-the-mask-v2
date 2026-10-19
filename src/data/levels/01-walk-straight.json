@@ -1,0 +1,60 @@
+{
+  "id": "01-walk-straight",
+  "name": "WALK STRAIGHT",
+  "mission": "MISSION 1",
+  "lyrics": ["JUST BUY AND SALE", "WAITING YOUR DEATH"],
+  "decor": { "image": "rue", "segments": [[0, 1813], [0, 1813], [0, 2140]] },
+  "ground": [[0, 292], [5766, 292]],
+  "platforms": [],
+  "blocks": [],
+  "props": [
+    { "id": "c1", "type": "crate", "x": 380, "y": 292, "drop": "V" },
+    { "id": "r1", "type": "barrel", "x": 640, "y": 292 },
+    { "id": "c2", "type": "crate", "x": 720, "y": 292 },
+    { "id": "d1", "type": "dumpster", "x": 800, "y": 292 },
+    { "id": "b1", "type": "balcony", "x": 1010, "y": 276 },
+    { "id": "g1", "type": "garage", "x": 1180, "y": 292 },
+    { "id": "s1", "type": "stoop", "x": 1520, "y": 292 },
+    { "id": "a1", "type": "awning", "x": 1660, "y": 272 },
+    { "id": "c3", "type": "crates", "x": 2020, "y": 292, "drop": "L" },
+    { "id": "c4", "type": "crate", "x": 2070, "y": 292 },
+    { "id": "sc1", "type": "scaffold", "x": 2400, "y": 292 },
+    { "id": "r2", "type": "barrel", "x": 2780, "y": 292 },
+    { "id": "g2", "type": "garage", "x": 3320, "y": 292 },
+    { "id": "r3", "type": "barrel", "x": 3820, "y": 292 },
+    { "id": "c5", "type": "crate", "x": 3900, "y": 292, "drop": "P" },
+    { "id": "b2", "type": "balcony", "x": 4150, "y": 276 },
+    { "id": "d2", "type": "dumpster", "x": 4500, "y": 292 },
+    { "id": "c6", "type": "crate", "x": 4430, "y": 292 },
+    { "id": "sc2", "type": "scaffold", "x": 4850, "y": 292 },
+    { "id": "c7", "type": "crate", "x": 5020, "y": 292, "drop": "R" }
+  ],
+  "hostages": [
+    { "x": 470, "y": 292, "gift": "L" },
+    { "x": 1552, "y": 238, "gift": "P" },
+    { "x": 3020, "y": 292, "gift": "V" },
+    { "x": 4300, "y": 292, "gift": "R" }
+  ],
+  "triggers": [
+    { "at": 150, "spawn": [{ "type": "hommetv", "from": "right" }, { "type": "hommetv", "from": "right", "delay": 1.4 }] },
+    { "at": 560, "spawn": [{ "type": "crs", "from": "right" }, { "type": "hommetv", "from": "drop", "x": 1000, "delay": 1 }] },
+    { "at": 900, "lock": true, "spawn": [
+      { "type": "hommetv", "from": "g1" }, { "type": "hommetv", "from": "g1", "delay": 1.2 },
+      { "type": "crs", "from": "g1", "delay": 2.4 }, { "type": "crs", "from": "right", "delay": 3.5 }
+    ] },
+    { "at": 1450, "spawn": [{ "type": "hommetv", "from": "right" }, { "type": "crs", "from": "left", "delay": 1 }] },
+    { "at": 1900, "spawn": [{ "type": "crs", "from": "right" }, { "type": "hommetv", "from": "right", "delay": 0.8 }, { "type": "hommetv", "from": "right", "delay": 1.6 }] },
+    { "at": 2550, "lock": true, "say": "WALK STRAIGHT!", "sub": "KEEP SILENCE!", "spawn": [
+      { "type": "tvgiant", "from": "right" },
+      { "type": "hommetv", "from": "right", "delay": 7 }, { "type": "hommetv", "from": "left", "delay": 12 }
+    ] },
+    { "at": 3050, "lock": true, "spawn": [
+      { "type": "crs", "from": "g2" }, { "type": "crs", "from": "g2", "delay": 1.5 },
+      { "type": "hommetv", "from": "g2", "delay": 3 }, { "type": "hommetv", "from": "right", "delay": 4 }
+    ] },
+    { "at": 3650, "spawn": [{ "type": "hommetv", "from": "right" }, { "type": "hommetv", "from": "right", "delay": 1 }, { "type": "crs", "from": "right", "delay": 2 }] },
+    { "at": 4050, "spawn": [{ "type": "hommetv", "from": "drop", "x": 4150 }, { "type": "crs", "from": "right", "delay": 1.5 }] },
+    { "at": 4450, "spawn": [{ "type": "crs", "from": "right" }, { "type": "crs", "from": "left", "delay": 1 }, { "type": "hommetv", "from": "drop", "x": 4850, "delay": 2 }] },
+    { "at": 5158, "lock": true, "boss": "manager" }
+  ]
+}

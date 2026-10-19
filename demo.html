@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.png">
+<meta name="color-scheme" content="dark">
+<!-- fond sombre tout de suite, avant le CSS (chargé par le JS) : pas d'écran blanc -->
+<style>html, body { background: #14110e; }</style>
+<title>Behind the Mask — les 4 persos</title>
+<link rel="stylesheet" href="/src/styles/pages/demo.css">
+<script type="module" src="/src/pages/demo.js"></script>
+</head>
+<body>
+<h1>BEHIND THE MASK</h1>
+<p class="sub">Mission 1 — la rue · démo de 2 minutes : marche, tir dans 8 directions, saut, vinyle, corps à corps, combat contre un CRS</p>
+
+<div class="borne"><div class="borne__screen" id="screen"></div></div>
+
+<div class="panel">
+  <div class="group" id="steps"><span>ALLER À UN PASSAGE DE LA DÉMO</span></div>
+  <div class="group" id="cast"><span>PERSO</span></div>
+  <div class="group" id="options"><span>OPTIONS</span></div>
+</div>
+<p class="help">
+  <kbd>←→</kbd> marche · <kbd>↑</kbd><kbd>↓</kbd> profondeur · <kbd>S</kbd> + <kbd>↑</kbd> viser en haut · <kbd>S</kbd> + <kbd>↓</kbd> accroupi<br>
+  <kbd>W</kbd> tir · <kbd>X</kbd> saut · <kbd>C</kbd> vinyle · <kbd>Q</kbd> corps à corps · <kbd>D</kbd> skate ·
+  <kbd>H</kbd> touché · <kbd>O</kbd> K.O. · <kbd>P</kbd> victoire<br>
+  <kbd>R</kbd> démo auto · <kbd>E</kbd> un CRS à affronter · <kbd>T</kbd> torse / jambes · <kbd>G</kbd> repères
+</p>
+
+<details class="drawer" id="gallery" open>
+  <summary>GALERIE : TOUS LES PERSOS EN ACTION</summary>
+  <div class="group" id="gallery-anims"><span>ANIMATION</span></div>
+  <div class="parade" id="parade"></div>
+</details>
+
+<details class="drawer" id="inspect">
+  <summary>INSPECTEUR DES IMAGES</summary>
+  <div class="status" id="status"></div>
+  <div class="group" id="who"><span>PERSO</span></div>
+  <div id="anims"></div>
+</details>
+</body>
+</html>

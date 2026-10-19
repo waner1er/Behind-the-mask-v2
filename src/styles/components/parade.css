@@ -1,0 +1,10 @@
+/* La parade : tous les persos côte à côte sur le trottoir (le canvas Phaser suit la largeur).
+   --page : seule sur sa page, avec un cadre. */
+.parade { display: block; width: 100%; margin-top: 10px; border: 2px solid #000; background: #000; }
+.parade--page {
+  width: min(100%, 1200px);
+  margin-top: 12px;
+  border-width: 3px;
+  box-shadow: 0 0 0 3px var(--metal-hi), 0 12px 40px #000c;
+}
+.parade canvas { display: block; }

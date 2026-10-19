@@ -1,0 +1,65 @@
+{
+  "_doc": "Planches du niveau 1 (Figma « Behind the Mask — niveau 1 »), découpées par tools/build_level.py. Cases [rangée, colonne] à partir de 1.",
+  "nom": "niveau",
+  "sortie": "public/assets/levels/01-walk-straight",
+  "planches": {
+    "props": {
+      "fichier": "ressources/sprites/decor/props-rue.png",
+      "colonnes": 4, "rangees": 3, "echelle": 0.34, "ancrage": "bas",
+      "images": {
+        "crate": [[1, 1]],
+        "crate_broken": [[1, 2]],
+        "crates": [[1, 3]],
+        "barrel": [[1, 4]],
+        "balcony": [[2, 1]],
+        "awning": [[2, 2]],
+        "stoop": [[2, 3]],
+        "scaffold": [[2, 4]],
+        "garage": { "cases": [[3, 1], [3, 2], [3, 3]], "fps": 6, "boucle": false },
+        "dumpster": [[3, 4]]
+      }
+    },
+    "habitant": {
+      "fichier": "ressources/sprites/decor/habitant.png",
+      "colonnes": 6, "rangees": 3, "echelle": 0.29,
+      "images": {
+        "hostage_idle": { "cases": [[1, 1], [1, 2], [1, 3], [1, 4]], "fps": 4 },
+        "hostage_freed": { "cases": [[1, 5], [1, 6]], "fps": 5, "boucle": false },
+        "hostage_thanks": { "cases": [[2, 1], [2, 2]], "fps": 4, "boucle": false },
+        "hostage_gift": { "cases": [[2, 3], [2, 4], [2, 5]], "fps": 5, "boucle": false },
+        "hostage_bye": [[2, 6]],
+        "hostage_run": { "cases": [[3, 1], [3, 2], [3, 3], [3, 4], [3, 5], [3, 6]], "fps": 12 }
+      }
+    },
+    "manager_coque": {
+      "fichier": "ressources/sprites/boss/manager-coque.png",
+      "colonnes": 2, "rangees": 2, "echelle": 0.5, "trait": 0.985,
+      "images": {
+        "manager_hull": [[1, 1]],
+        "manager_hull_damaged": [[1, 2]],
+        "manager_hull_wrecked": [[2, 1]],
+        "manager_debris": { "cases": [[2, 2]], "eclatee": true, "echelle": 0.3 }
+      }
+    },
+    "manager_pieces": {
+      "fichier": "ressources/sprites/boss/manager-pieces.png",
+      "colonnes": 4, "rangees": 4, "echelle": 0.27,
+      "images": {
+        "manager_idle": { "cases": [[1, 1], [1, 2]], "fps": 2, "echelle": 0.2 },
+        "manager_order": { "cases": [[1, 3]], "echelle": 0.2 },
+        "manager_hurt": { "cases": [[1, 4]], "echelle": 0.2 },
+        "manager_rage": { "cases": [[2, 1]], "echelle": 0.2 },
+        "manager_ejected": { "cases": [[2, 2], [2, 3]], "fps": 6, "echelle": 0.3 },
+        "manager_ko": { "cases": [[2, 4]], "echelle": 0.3 },
+        "cannon": [[3, 1]],
+        "cannon_fire": [[3, 2]],
+        "cannon_broken": [[3, 3]],
+        "megaphone": [[3, 4]],
+        "megaphone_blast": [[4, 1]],
+        "megaphone_broken": [[4, 2]],
+        "printer": [[4, 3]],
+        "printer_open": [[4, 4]]
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "_doc": "Les sons du jeu, fabriqués par tools/build_sounds.py → public/assets/audio/sfx/{id}.mp3. Voix : synthèse Piper (voix anglaise grave), puis un effet ffmpeg (annonceur d'arcade, otage, mégaphone). Les noms des héros sont écrits comme ils se prononcent en anglais.",
+  "voix": "en_US-ryan-high",
+  "effets": {
+    "annonceur": "asetrate=22050*0.86,aresample=44100,atempo=1.163,acompressor=threshold=-20dB:ratio=6:attack=5:release=80,volume=16dB,aecho=0.8:0.55:70|130:0.35|0.18,alimiter=limit=0.95",
+    "otage": "asetrate=22050*1.18,aresample=44100,atempo=0.85,acompressor=threshold=-18dB:ratio=4,volume=12dB,alimiter=limit=0.95",
+    "megaphone": "asetrate=22050*0.9,aresample=44100,atempo=1.111,highpass=f=600,lowpass=f=3200,volume=14dB,acrusher=bits=6:mix=0.4,aecho=0.6:0.4:40:0.3,alimiter=limit=0.9"
+  },
+  "repliques": {
+    "mission_1": { "texte": "Mission one! Start!", "effet": "annonceur" },
+    "mission_complete": { "texte": "Mission complete!", "effet": "annonceur" },
+    "game_over": { "texte": "Game over.", "effet": "annonceur" },
+    "continue": { "texte": "Continue?", "effet": "annonceur" },
+    "okay": { "texte": "Okay!", "effet": "annonceur" },
+    "go": { "texte": "Go!", "effet": "annonceur" },
+    "larsen": { "texte": "Heavy larsen!", "effet": "annonceur" },
+    "power_chord": { "texte": "Power chord!", "effet": "annonceur" },
+    "vinyl": { "texte": "Vinyl bomb!", "effet": "annonceur" },
+    "rocket": { "texte": "Rocket launcher!", "effet": "annonceur" },
+    "arnaud": { "texte": "Arno!", "effet": "annonceur" },
+    "baptiste": { "texte": "Bah-teest!", "effet": "annonceur" },
+    "erwan": { "texte": "Air-wan!", "effet": "annonceur" },
+    "pierre": { "texte": "Pee-air!", "effet": "annonceur" },
+    "thank_you": { "texte": "Thank you!", "effet": "otage" },
+    "back_to_work": { "texte": "Back to work!", "effet": "megaphone" },
+    "work_to_survive": { "texte": "Work to survive!", "effet": "megaphone" }
+  }
+}

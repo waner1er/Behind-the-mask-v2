@@ -1,0 +1,6 @@
+@import url('@fontsource/press-start-2p');
+@import url('../base.css');
+@import url('../components/borne.css');
+
+/* le jeu : la borne prend la hauteur de l'écran, sans dépasser */
+.borne--game { width: min(100%, 1200px, calc((100vh - 120px) * 16 / 9)); }

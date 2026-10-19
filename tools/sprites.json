@@ -1,0 +1,169 @@
+{
+  "_doc": "Disposition des planches générées (voir ressources/prompts-sprites.md). Chaque anim : [rangée, 1re colonne, nb d'images, nom, fps, boucle]. Rangées et colonnes comptées à partir de 1.",
+  "persos": ["arnaud", "baptiste", "erwan", "pierre"],
+  "hauteur": 72,
+  "hanches": 0.42,
+  "planches": {
+    "deplacements": {
+      "colonnes": 8,
+      "rangees": 4,
+      "sol": ["idle", "walk"],
+      "anims": [
+        [1, 1, 8, "idle", 6, true],
+        [2, 1, 8, "walk", 12, true],
+        [3, 1, 8, "jump", 0, false],
+        [4, 1, 2, "crouch_down", 12, false],
+        [4, 3, 2, "crouch_idle", 3, true],
+        [4, 5, 4, "crouch_walk", 8, true]
+      ]
+    },
+    "tir": {
+      "colonnes": 6,
+      "rangees": 4,
+      "sol": ["shoot_fwd", "shoot_up"],
+      "anims": [
+        [1, 1, 3, "shoot_fwd", 0, false],
+        [1, 4, 3, "shoot_diagup", 0, false],
+        [2, 1, 3, "shoot_up", 0, false],
+        [2, 4, 3, "shoot_diagdown", 0, false],
+        [3, 1, 3, "jump_shoot_diagdown", 0, false],
+        [3, 4, 3, "jump_shoot_down", 0, false],
+        [4, 1, 3, "crouch_shoot_fwd", 0, false],
+        [4, 4, 3, "jump_shoot_fwd", 0, false]
+      ]
+    },
+    "actions": {
+      "colonnes": 6,
+      "rangees": 4,
+      "sol": ["throw", "melee"],
+      "anims": [
+        [1, 1, 3, "throw", 10, false],
+        [1, 4, 3, "crouch_throw", 10, false],
+        [2, 1, 3, "melee", 10, false],
+        [2, 4, 3, "crouch_melee", 10, false],
+        [3, 1, 2, "hurt", 8, false],
+        [3, 3, 4, "death", 6, false],
+        [4, 1, 6, "victory", 8, true]
+      ]
+    }
+  },
+  "crs": {
+    "_doc": "Ennemi CRS : planche LIBELLÉE ressources/sources/Planche de sprites pixel art CRS.png (lue par read_crs), pas une planche au format des persos. Colonne des libellés à gauche, puis 8 cases par rangée. x/y = limites des cases (relevées sur l'image : traits de grille et rigidité), ref = hauteur source qui vaut `hauteur` (la planche dessine le même perso à des tailles différentes selon les rangées : chacune est recalée dessus ; une rangée « naturellement » plus basse, accroupi ou au sol, garde 97). Chaque anim : [rangée, 1re case, nb d'images, nom, fps, boucle]. Rangées : 1 idle, 2 marche, 3 course, 4 saut (non utilisé), 5 accroupi, 6 grimpe (non utilisé), 7 attaque / tir, 8 lancer grenade, 9 hurt, 10 mort.",
+    "source": "ressources/sources/Planche de sprites pixel art CRS.png",
+    "hauteur": 72,
+    "x": [157, 288, 429, 567, 702, 839, 973, 1110, 1250],
+    "y": [
+      190,
+      287,
+      302,
+      399,
+      420,
+      510,
+      523,
+      626,
+      649,
+      717,
+      727,
+      845,
+      862,
+      948,
+      965,
+      1050,
+      1067,
+      1149,
+      1175,
+      1240
+    ],
+    "ref": [97, 97, 97, 97, 97, 97, 86, 85, 82, 97],
+    "anims": [
+      [1, 1, 8, "idle", 6, true],
+      [2, 1, 8, "walk", 10, true],
+      [3, 1, 8, "run", 12, true],
+      [5, 1, 8, "crouch_idle", 3, true],
+      [7, 1, 3, "melee", 10, false],
+      [7, 5, 3, "shoot_fwd", 0, false],
+      [8, 3, 2, "throw", 8, false],
+      [9, 1, 2, "hurt", 8, false],
+      [10, 1, 8, "death", 6, false]
+    ]
+  },
+  "effets": {
+    "colonnes": 8,
+    "rangees": 5,
+    "_taille": "taille voulue en pixels (plus grand côté, médiane de l'anim)",
+    "anims": [
+      [1, 1, 4, "pick_orange", 14, true, 8],
+      [1, 5, 4, "pick_blue", 14, true, 8],
+      [2, 1, 4, "flash", 30, false, 18],
+      [2, 5, 4, "impact", 20, false, 16],
+      [3, 1, 8, "vinyl", 16, true, 14],
+      [4, 1, 8, "explosion", 14, false, 72],
+      [5, 1, 4, "notes", 8, false, 18],
+      [5, 5, 4, "dust", 14, false, 18]
+    ]
+  },
+  "directions": {"fwd": [1, 0], "diagup": [1, -1], "up": [0, -1], "diagdown": [1, 1], "down": [0, 1]},
+  "ennemis": {
+    "_doc": "Méchants : planches en grille régulière (prompts : ressources/prompts/ennemis.md), une par méchant, dans `dossier`/{id}.png. Le gabarit donne la disposition ; `$distance` y prend le nom de l'attaque à distance du méchant (throw ou shoot_fwd). `hauteur` = hauteur de sortie de l'attente, en pixels de jeu (héros et CRS : 72). Chaque anim : [rangée, 1re colonne, nb d'images, nom, fps, boucle].",
+    "dossier": "ressources/sprites/ennemis",
+    "gabarits": {
+      "fantassin": {
+        "colonnes": 8,
+        "rangees": 4,
+        "sol": ["idle", "walk"],
+        "anims": [
+          [1, 1, 8, "walk", 10, true],
+          [2, 1, 4, "idle", 6, true],
+          [2, 5, 4, "melee", 10, false],
+          [3, 1, 4, "$distance", 10, false],
+          [3, 5, 4, "special", 8, false],
+          [4, 1, 2, "hurt", 8, false],
+          [4, 3, 6, "death", 6, false]
+        ]
+      },
+      "gros": {
+        "colonnes": 6,
+        "rangees": 4,
+        "sol": ["idle", "walk"],
+        "anims": [
+          [1, 1, 6, "walk", 8, true],
+          [2, 1, 2, "idle", 4, true],
+          [2, 3, 4, "melee", 8, false],
+          [3, 1, 3, "$distance", 8, false],
+          [3, 4, 3, "special", 6, false],
+          [4, 1, 2, "hurt", 6, false],
+          [4, 3, 4, "death", 5, false]
+        ]
+      }
+    },
+    "liste": {
+      "skinhead": {"gabarit": "fantassin", "hauteur": 72, "distance": "throw"},
+      "masculiniste": {"gabarit": "fantassin", "hauteur": 76, "distance": "throw"},
+      "affairiste": {"gabarit": "fantassin", "hauteur": 70, "distance": "throw"},
+      "hommetv": {"gabarit": "fantassin", "hauteur": 72, "distance": "shoot_fwd"},
+      "mutant": {"gabarit": "fantassin", "hauteur": 66, "distance": "throw"},
+      "colosse": {"gabarit": "gros", "hauteur": 108, "distance": "throw"},
+      "cyberflic": {"gabarit": "fantassin", "hauteur": 78, "distance": "shoot_fwd"},
+      "zombie": {"gabarit": "fantassin", "hauteur": 70, "distance": "throw"},
+      "ninja": {"gabarit": "fantassin", "hauteur": 68, "distance": "throw"}
+    },
+    "projectiles": {
+      "fichier": "projectiles.png",
+      "colonnes": 8,
+      "rangees": 5,
+      "_taille": "taille voulue en pixels (plus grand côté, médiane de l'anim)",
+      "anims": [
+        [1, 1, 4, "bottle", 14, true, 12],
+        [1, 5, 4, "fire", 10, true, 22],
+        [2, 1, 4, "dumbbell", 14, true, 14],
+        [2, 5, 4, "banknote", 16, true, 12],
+        [3, 1, 4, "zap", 18, true, 18],
+        [3, 5, 4, "laser", 18, true, 18],
+        [4, 1, 4, "spit", 12, true, 10],
+        [4, 5, 4, "puddle", 8, true, 26],
+        [5, 1, 4, "card", 18, true, 9],
+        [5, 5, 4, "barrel", 12, true, 26]
+      ]
+    }
+  }
+}
