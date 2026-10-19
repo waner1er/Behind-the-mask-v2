@@ -9,6 +9,8 @@ import { GameHudScene } from '../scenes/GameHudScene.js';
 import { DemoScene } from '../scenes/DemoScene.js';
 import { HudScene } from '../scenes/HudScene.js';
 import { SCENES } from '../scenes/keys.js';
+import { TouchControls } from '../input/TouchControls.js';
+import { MobileGuard } from '../input/MobileGuard.js';
 
 const scenes = [
   new BootScene({ next: SCENES.title, game: true }),
@@ -16,3 +18,6 @@ const scenes = [
 ];
 if (import.meta.env.DEV) scenes.push((await import('../devtools/EditorScene.js')).EditorScene);
 createGame(document.getElementById('screen'), scenes);
+// sur téléphone : stick et boutons tactiles, ni zoom ni défilement, plein écran en paysage
+new TouchControls().bind();
+new MobileGuard().bind();

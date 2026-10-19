@@ -1,0 +1,123 @@
+/* Les commandes tactiles (reprises du premier jeu) : invisibles à la souris, elles flottent
+   par-dessus le jeu sur un téléphone en paysage. En portrait, on demande de tourner l'écran. */
+.touch, .rotate-hint { display: none; }
+
+.touch-stick {
+  --size: min(124px, 34vh);
+  --kx: 0px;
+  --ky: 0px;
+  position: fixed;
+  left: max(16px, env(safe-area-inset-left));
+  bottom: 16px;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 0, 0, 0.55) 55%, rgba(0, 0, 0, 0.35) 56%);
+  border: 3px solid rgba(241, 220, 180, 0.35);
+}
+.touch-stick__knob {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 46%;
+  height: 46%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ff8a9a, #e8203a 45%, #7a0a18);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+  transform: translate(calc(-50% + var(--kx)), calc(-50% + var(--ky)));
+  pointer-events: none;                 /* c'est le socle entier qui écoute le pouce */
+}
+
+/* six boutons, comme le pavé Q S D / W X C : la rangée du bas tire, saute, lance */
+.touch-buttons {
+  position: fixed;
+  right: max(12px, env(safe-area-inset-right));
+  bottom: 10px;
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: 4px 10px;
+}
+.touch-btn {
+  display: grid;
+  justify-items: center;
+  gap: 3px;
+  font-size: 7px;
+  color: var(--text);
+  text-shadow: 1px 1px 0 #000;
+}
+.touch-btn__cap {
+  --c: #888;
+  width: min(48px, 13vh);
+  aspect-ratio: 1;
+  padding: 0;
+  border: 2px solid #000;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--c), #fff 35%), var(--c) 50%, color-mix(in srgb, var(--c), #000 40%));
+  box-shadow: 0 4px 0 color-mix(in srgb, var(--c), #000 60%), 0 6px 10px rgba(0, 0, 0, 0.6);
+  transition: transform 0.05s;
+}
+.touch-btn__cap--red { --c: #e8203a; }
+.touch-btn__cap--yellow { --c: #ffd23f; }
+.touch-btn__cap--white { --c: #f1dcb4; }
+.touch-btn__cap--blue { --c: #4da6ff; }
+.touch-btn__cap--grey { --c: #6f6a62; }
+.touch-btn__cap.is-pressed { transform: translateY(4px); box-shadow: 0 1px 0 #000; filter: brightness(1.15); }
+
+.touch-start {
+  position: fixed;
+  top: max(6px, env(safe-area-inset-top));
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 7px 12px;
+  font: inherit;
+  font-size: 8px;
+  color: var(--bg);
+  background: var(--text);
+  border: 2px solid #000;
+  border-radius: 6px;
+  box-shadow: 0 3px 0 #6f6a62;
+}
+.touch-start.is-pressed { transform: translate(-50%, 2px); box-shadow: 0 1px 0 #6f6a62; }
+
+.touch *, .touch { touch-action: none; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
+
+@media (pointer: coarse) {
+  html, body { touch-action: none; overscroll-behavior: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+}
+
+/* téléphone en paysage : l'écran le plus grand possible (16/9), les commandes par-dessus */
+@media (pointer: coarse) and (orientation: landscape) {
+  body.game { padding: 0; height: 100dvh; justify-content: center; background: #000; }
+  body.game > .help { display: none; }
+  body.game .borne--game { width: min(100vw, calc(100dvh * 16 / 9)); padding: 0; border: 0; box-shadow: none; background: none; }
+  .borne--game::before, .borne--game::after { display: none; }
+  .borne--game .borne__screen { border: 0; }
+  .touch { display: block; }
+  .touch-stick, .touch-buttons, .touch-start { z-index: 5; opacity: 0.7; }
+}
+
+/* téléphone en portrait : on demande de le tourner */
+@media (pointer: coarse) and (orientation: portrait) {
+  body.game > * { visibility: hidden; }
+  .rotate-hint {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    display: grid;
+    place-content: center;
+    gap: 24px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.8;
+    color: var(--text);
+    background: var(--bg);
+    visibility: visible !important;
+  }
+  .rotate-hint p { margin: 0; }
+  .rotate-hint__icon { font-size: 64px; animation: rotate-phone 2s ease-in-out infinite; }
+}
+
+@keyframes rotate-phone {
+  0%, 30% { transform: rotate(0deg); }
+  60%, 100% { transform: rotate(-90deg); }
+}

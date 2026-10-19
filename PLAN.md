@@ -205,6 +205,7 @@ Puis vient la sélection, comme le « SOLDIER SELECT » de Metal Slug :
 Le fond (un mur de plaques rivetées) est dessiné par l'outil. Le mur généré dans Figma (fichier « niveau 1 », nœud 8:2) n'a pas pu être téléchargé : si on l'exporte dans `ressources/sources/select-fond.png`, l'outil le prend à la place.
 
 ### Jouer à deux
+- **Sur téléphone**, comme dans le premier jeu : en paysage, l'écran prend toute la place, avec un stick tactile à gauche, les 6 boutons à droite et START. En portrait, on demande de tourner le téléphone. Plein écran et verrouillage en paysage au premier appui, vibrations sur les gros coups (`src/input/TouchControls.js`, `VirtualPad.js`, `MobileGuard.js`, `src/audio/Haptics.js`).
 - J2 peut **rejoindre à tout moment** avec sa touche Start, comme on insère un crédit : on repasse brièvement par la sélection, parmi les héros libres.
 - Commandes : les flèches + 6 boutons Q S D / W X C (W tir, X saut, C vinyle, Q corps à corps, S viser sans bouger, D **attaque en skate**), et Entrée pour Start. L'attaque en skate vient du premier jeu : le héros fonce sur sa planche 0,6 s, invulnérable, renverse ennemis et caisses sur son passage, puis attend 1,2 s. Le 2e joueur est prêt dans le code mais désactivé pour l'instant (`TWO_PLAYERS`) ; ses touches et les **manettes** (Gamepad API) viendront avec lui.
 - **Caméra partagée** : aucun joueur ne sort de l'écran, et le plus en retard bloque le défilement.

@@ -1,19 +1,29 @@
 import Phaser from 'phaser';
 import { HELD, PRESSED } from '../config/controls.js';
+import { virtualPad } from './VirtualPad.js';
 
 const { JustDown } = Phaser.Input.Keyboard;
 
 // Une manette au clavier : lit les touches d'un joueur et rend { inp, press }, le format que
 // comprennent les acteurs (inp = croix + boutons tenus, press = boutons appuyés à cette image).
+// touch : le joueur 1 lit aussi la manette virtuelle des commandes tactiles (téléphone).
 export class KeyboardPad {
-  constructor(keyboard, mapping) {
+  constructor(keyboard, mapping, { touch = false } = {}) {
     this.keys = Object.fromEntries(Object.entries(mapping)
       .map(([action, codes]) => [action, codes.map((c) => keyboard.addKey(c, true, false))]));
+    this.virtual = touch ? virtualPad : null;
   }
 
-  isDown(action) { return this.keys[action].some((k) => k.isDown); }
+  isDown(action) {
+    return this.keys[action].some((k) => k.isDown) || !!this.virtual?.isDown(action);
+  }
+
   // à appeler une seule fois par image : JustDown consomme l'appui
-  justDown(action) { return this.keys[action].map((k) => JustDown(k)).some(Boolean); }
+  justDown(action) {
+    const key = this.keys[action].map((k) => JustDown(k)).some(Boolean);
+    const touch = !!this.virtual?.justDown(action);
+    return key || touch;
+  }
 
   read() {
     const inp = {

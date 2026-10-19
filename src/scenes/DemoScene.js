@@ -32,7 +32,7 @@ export class DemoScene extends Phaser.Scene {
     this.session.goTo(this.session.script.steps[this.startStep] ? this.startStep : 0);
     if (this.startManual) this.session.auto = false;
     this.view = new WorldView(this, this.session.world);
-    this.pad = new KeyboardPad(this.input.keyboard, KEYS_P1);
+    this.pad = new KeyboardPad(this.input.keyboard, KEYS_P1, { touch: true });
     this.dieHeld = false;
     this.session.attract = this.attract;
     if (!this.attract) this.#bindDebugKeys();

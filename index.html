@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <link rel="icon" href="favicon.png">
 <meta name="color-scheme" content="dark">
 <!-- fond sombre tout de suite, avant le CSS (chargé par le JS) : pas d'écran blanc -->
@@ -13,6 +13,21 @@
 </head>
 <body class="game">
 <div class="borne borne--game"><div class="borne__screen" id="screen"></div></div>
+
+<!-- les commandes tactiles (téléphone, en paysage) : stick à gauche, boutons à droite, START -->
+<div class="touch" aria-hidden="true">
+  <div class="touch-stick" data-touch-stick><span class="touch-stick__knob"></span></div>
+  <div class="touch-buttons">
+    <label class="touch-btn"><button class="touch-btn__cap touch-btn__cap--grey" type="button" data-action="melee"></button><span>COUP</span></label>
+    <label class="touch-btn"><button class="touch-btn__cap touch-btn__cap--grey" type="button" data-action="lock"></button><span>VISER</span></label>
+    <label class="touch-btn"><button class="touch-btn__cap touch-btn__cap--blue" type="button" data-action="skate"></button><span>SKATE</span></label>
+    <label class="touch-btn"><button class="touch-btn__cap touch-btn__cap--red" type="button" data-action="fire"></button><span>TIR</span></label>
+    <label class="touch-btn"><button class="touch-btn__cap touch-btn__cap--yellow" type="button" data-action="jump"></button><span>SAUT</span></label>
+    <label class="touch-btn"><button class="touch-btn__cap touch-btn__cap--white" type="button" data-action="bomb"></button><span>VINYLE</span></label>
+  </div>
+  <button class="touch-start" type="button" data-action="start">START</button>
+</div>
+<div class="rotate-hint"><p class="rotate-hint__icon">📱</p><p>TOURNE TON TÉLÉPHONE</p></div>
 <p class="help">
   <kbd>←→</kbd> avancer · <kbd>↑</kbd><kbd>↓</kbd> vers le fond / vers l'avant · <kbd>S</kbd> + <kbd>↑</kbd> viser en haut · <kbd>S</kbd> + <kbd>↓</kbd> s'accroupir<br>
   <kbd>W</kbd> tir · <kbd>X</kbd> saut · <kbd>C</kbd> vinyle · <kbd>Q</kbd> corps à corps · <kbd>D</kbd> attaque en skate · <kbd>ENTRÉE</kbd> start (pause)<br>

@@ -32,7 +32,7 @@ export class SplashScene extends Phaser.Scene {
     this.add.text(W / 2, 300, '© 2026 VIGILANTE', { ...TEXT_8, color: COLORS.text }).setOrigin(0.5).setStroke('#000000', 3);
     this.add.text(14, H - 8, 'CREDITS 99', { ...TEXT_8, color: '#c8d0ff' }).setOrigin(0, 1).setStroke('#000000', 3);
     this.add.text(W - 14, H - 8, 'CREDITS 99', { ...TEXT_8, color: '#c8d0ff' }).setOrigin(1, 1).setStroke('#000000', 3);
-    this.pads = PLAYER_KEYS.map((k) => new KeyboardPad(this.input.keyboard, k));
+    this.pads = PLAYER_KEYS.map((k, i) => new KeyboardPad(this.input.keyboard, k, { touch: i === 0 }));
     this.sfx = new SoundPlayer(this);
     this.t = 0;
     this.idle = 0;
@@ -48,6 +48,7 @@ export class SplashScene extends Phaser.Scene {
     const dt = delta / 1000;
     this.t += dt;
     this.idle += dt;
+    if (this.pads.some((p) => ['left', 'right', 'up', 'down', 'fire'].some((a) => p.isDown(a)))) this.idle = 0;
     this.street.forEach((im, i) => im.setX(Math.round(i * 2140 - ((this.t * SCROLL) % 2140))));
     this.press.setVisible(blink(this.t));
     if (this.leaving) return;

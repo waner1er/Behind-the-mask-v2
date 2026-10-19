@@ -52,7 +52,7 @@ export class SelectScene extends Phaser.Scene {
       fontFamily: FONT, fontSize: '10px', color: '#000000', backgroundColor: CURSOR[pl.slot], padding: { x: 4, y: 3 },
     }).setOrigin(0.5, 1));
     this.arrows = this.add.graphics();
-    this.pads = PLAYER_KEYS.map((k) => new KeyboardPad(this.input.keyboard, k));
+    this.pads = PLAYER_KEYS.map((k, i) => new KeyboardPad(this.input.keyboard, k, { touch: i === 0 }));
     this.sfx = new SoundPlayer(this);
     this.left = TIME;
     this.doneT = -1;

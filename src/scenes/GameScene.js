@@ -7,6 +7,7 @@ import { GameSession } from '../game/session/GameSession.js';
 import { KeyboardPad } from '../input/KeyboardPad.js';
 import { WorldView } from '../views/WorldView.js';
 import { SoundPlayer } from '../audio/SoundPlayer.js';
+import { vibrateFor } from '../audio/Haptics.js';
 
 const MAX_DT = 0.05;   // au-delà (onglet en pause…), le jeu ralentit plutôt que de sauter
 
@@ -36,7 +37,7 @@ export class GameScene extends Phaser.Scene {
     this.session = new GameSession({ level: def, players: this.players, intro, start: this.start });
     this.view = new WorldView(this, this.session.world);
     this.sfx = new SoundPlayer(this);
-    this.pads = PLAYER_KEYS.map((k) => new KeyboardPad(this.input.keyboard, k));
+    this.pads = PLAYER_KEYS.map((k, i) => new KeyboardPad(this.input.keyboard, k, { touch: i === 0 }));
     this.paused = false;
     this.leaving = false;
     this.music = this.sound.add(MUSIC.level(this.levelIndex), { loop: true, volume: 0.7 });
@@ -78,6 +79,7 @@ export class GameScene extends Phaser.Scene {
     const dt = Math.min(delta / 1000, MAX_DT);
     this.session.update(dt, inputs);
     this.view.render();
+    vibrateFor(this.session.world.sounds);           // le téléphone vibre sur les gros coups
     this.sfx.drain(this.session.world.sounds);
     if (this.session.finished() && !this.leaving) this.#leave();
   }
