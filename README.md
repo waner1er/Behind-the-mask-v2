@@ -21,6 +21,9 @@ Les pages ne s'ouvrent que par `npm run dev` (ou par le build) : le navigateur s
 | `index.html` | **le jeu** : écran de garde (PRESS START, la démo tourne en attraction si personne ne joue), sélection des héros façon Metal Slug, puis le niveau 1 |
 | `demo.html` | le banc d'essai : la démo de 2 minutes, les persos, l'inspecteur des images. `#manuel` commence au clavier ; `#12` démarre au passage 12 |
 | `galerie.html` | tous les persos de l'atlas en action |
+| `clip.html` | **le clip de démo** sur *Metal Slug* (feat. Guillaume / Circles) : écran de garde, sélection, puis la mission METAL SLUG jouée toute seule et calée sur le morceau, paroles en karaoké, Guillaume qui entre en invité, le boss open-space. Réglages (paroles, allure, invité) : `src/config/clip.js` |
+
+La vidéo du clip (1080p, 60 i/s, avec le morceau) : `npm run dev`, puis `npm run clip:video` (Chrome sans fenêtre, ~5 min) → `clip-metal-slug.mp4`.
 
 ## Commandes
 

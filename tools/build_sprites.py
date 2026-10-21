@@ -428,30 +428,34 @@ LEGACY_MAP = {'shoot_up': 'up', 'shoot_diagup': 'diagup', 'shoot_fwd': 'right',
 
 
 def bass():
-    """La basse d'Arnaud (noire, plaque crème, manche érable) avec ses deux mains, 48 × 26."""
-    im = Image.new('RGBA', (48, 26))
+    """La basse d'Arnaud avec ses deux mains, 55 × 26 : le manche, la tête et la main gauche sont
+    repris de sa pose de tir (ancienne planche), seul le corps, caché par le torse dans cette pose,
+    est dessiné ici, aux couleurs de la basse en jeu."""
+    base = ROOT / 'public/assets/persos'
+    e = json.loads((base / 'persos.json').read_text())['arnaud']['right'][0]
+    shot = Image.open(base / 'persos.png').convert('RGBA').crop((e['x'], e['y'], e['x'] + e['w'], e['y'] + e['h']))
+    im = Image.new('RGBA', (55, 26))
+    im.alpha_composite(shot.crop((46, 13, 79, 36)), (22, 2))      # manche, tête, main gauche
     d = ImageDraw.Draw(im)
     px = lambda c, x, y, w=1, h=1: d.rectangle([x, y, x + w - 1, y + h - 1], fill=c)
-    K, N, n, F, H, h = '#120e10', '#c48c4c', '#7a4e26', '#3a2418', '#d8d2c4', '#8c867a'
-    for i in range(24):
-        x, y = 18 + i, round(15 - i * 11 / 23)
-        px(K, x, y - 2); px(N, x, y - 1); px(n, x, y); px(K, x, y + 1)
-        if i % 4 == 2:
-            px(F, x, y - 1)
-    px(K, 40, 0, 7, 6); px(H, 41, 1, 5, 4); px(h, 41, 4, 5, 1)
-    px(H, 41, 0); px(H, 43, 0); px(H, 45, 0)
-    body = [[6, 8], [3, 14], [1, 20], [0, 22], [0, 21], [1, 19], [1, 20], [0, 22], [0, 22], [0, 21], [1, 19], [3, 15], [6, 9]]
+    K = '#120e10'
+    # le corps (forme de Precision Bass, cornes vers le manche) : noir, bord brun (sunburst), plaque
+    # écaille, micro, chevalet, et la main droite qui joue
+    body = [[13, 4], [12, 6], [3, 4], [2, 15], [1, 17], [1, 17], [2, 16], [2, 18], [1, 20], [0, 21],
+            [0, 21], [0, 20], [1, 18], [2, 15], [4, 10]]
     for k, (x, w) in enumerate(body):
-        px(K, x, 11 + k, w, 1)
-    for k, (x, w) in enumerate(body[1:-1]):
-        px('#26222e' if k > 6 else '#3a3644', x + 1, 12 + k, w - 2, 1)
-    px('#5c5870', 3, 13, 6, 1); px('#5c5870', 2, 14, 2, 3)
-    px('#ece2c8', 9, 13, 9, 3); px('#ece2c8', 10, 16, 7, 2); px('#b8aa8c', 11, 18, 5, 1)
-    px(K, 11, 15, 4, 1); px(K, 12, 16, 4, 1)
-    px('#a8a8b4', 3, 18, 4, 2)
-    px('#d8d2c4', 6, 21); px('#d8d2c4', 9, 21)
-    px(K, 13, 15, 6, 5); px('#e0a07a', 14, 15, 4, 3); px('#b06a4a', 14, 18, 4, 1)
-    px(K, 31, 6, 5, 6); px('#e0a07a', 32, 7, 3, 3); px('#b06a4a', 32, 10, 3, 1)
+        px(K, x, 9 + k, w, 1)
+    for k, (x, w) in enumerate(body):
+        if w > 3:
+            px('#5a3420', x + 1, 9 + k, w - 2, 1)
+    for k, (x, w) in enumerate(body[3:-2]):
+        px('#2a2226', x + 2, 12 + k, w - 4, 1)
+    px('#6e4a30', 9, 13, 6, 2); px('#6e4a30', 8, 15, 7, 3); px('#4a2c1c', 9, 18, 5, 1)
+    px('#d8d2c4', 4, 18, 2, 3); px('#0a0808', 11, 16, 3, 1)
+    for y in (18, 19, 20):                                  # le manche qui rejoint le corps
+        px('#c48c4c' if y < 20 else '#7a4e26', 17, y, 6, 1)
+    px(K, 17, 21, 6, 1)
+    px(K, 9, 15, 5, 5); px('#e0a07a', 10, 15, 3, 3); px('#b06a4a', 10, 18, 3, 1)
     return im
 
 
@@ -460,7 +464,7 @@ def with_bass(f, bob=0):
     img, ax, ay = f['img'], f['ax'], f['ay']
     bx, by = round(ax - 13), round(ay - img.height * 0.40 - 17 - bob)
     x0, y0 = min(0, bx), min(0, by)
-    x1, y1 = max(img.width, bx + 48), max(img.height, by + 26)
+    x1, y1 = max(img.width, bx + 55), max(img.height, by + 26)
     out = Image.new('RGBA', (x1 - x0, y1 - y0))
     out.alpha_composite(img, (-x0, -y0))
     out.alpha_composite(bass(), (bx - x0, by - y0))

@@ -18,4 +18,9 @@ export default [
       eqeqeq: ['error', 'always', { null: 'ignore' }],
     },
   },
+  // les outils Node (l'enregistreur du clip envoie aussi du code à la page : window)
+  {
+    files: ['tools/**/*.mjs'],
+    languageOptions: { ecmaVersion: 'latest', sourceType: 'module', globals: { ...globals.node, ...globals.browser } },
+  },
 ];

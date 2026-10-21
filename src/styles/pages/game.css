@@ -3,5 +3,11 @@
 @import url('../components/borne.css');
 @import url('../components/touch.css');
 
-/* le jeu : la borne prend la hauteur de l'écran, sans dépasser */
+/* la scène prend toute la largeur de la page (sinon elle se réduit à son contenu et la borne
+   avec elle) ; le jeu : la borne prend la hauteur de l'écran, sans dépasser */
+.stage { width: 100%; display: flex; justify-content: center; }
 .borne--game { width: min(100%, 1200px, calc((100vh - 120px) * 16 / 9)); }
+
+/* la scène prend toute la largeur, sinon (centrée par le body en flex) elle se réduit à son
+   contenu et la borne, en largeur relative, rétrécit avec elle */
+.stage { width: 100%; display: flex; justify-content: center; }

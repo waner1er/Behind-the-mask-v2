@@ -26,6 +26,7 @@ export default defineConfig({
         index: 'index.html',
         galerie: 'galerie.html',
         demo: 'demo.html',
+        clip: 'clip.html',
       },
       output: {
         // Phaser dans son propre fichier : il change rarement, le navigateur le garde en cache

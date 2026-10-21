@@ -5,7 +5,6 @@ import { DECORS, LEVELS, TITLE_MUSIC } from '../config/levels.js';
 import { ATLAS, setSpriteIndex } from '../data/sprites.js';
 import { LEVEL_ATLAS, setLevelIndex } from '../data/levelSprites.js';
 import { SFX, VOICES, soundKey, soundUrl } from '../config/sounds.js';
-import { CAST } from '../config/cast.js';
 
 const INDEX = 'sprite-index';
 const LEVEL_INDEX = 'level-index';
@@ -35,12 +34,8 @@ export class BootScene extends Phaser.Scene {
     for (const name of [...SFX, ...VOICES]) this.load.audio(soundKey(name), soundUrl(name));
     // le logo de Vigilante (tools/build_logo.py), pour l'écran de garde
     this.load.image('title-logo', 'assets/title/logo.png');
-    // l'écran de sélection (tools/build_select.py)
+    // le mur de l'écran de sélection (tools/build_select.py)
     this.load.image('select-fond', 'assets/select/fond.png');
-    for (const { id } of CAST) {
-      this.load.image(`portrait-${id}`, `assets/select/${id}.png`);
-      this.load.image(`portrait-${id}-gris`, `assets/select/${id}-gris.png`);
-    }
     this.#progressBar();
   }
 

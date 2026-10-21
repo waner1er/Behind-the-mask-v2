@@ -49,12 +49,14 @@ export class GameSession {
   }
 
   // Un joueur entre dans la partie (au début, ou en cours : il tombe du haut de l'écran).
-  join(slot, heroId) {
+  // guest : un héros hors du groupe (l'invité du clip), avec sa définition complète.
+  join(slot, heroId, guest = null) {
     const p = this.players[slot];
     if (p.active) return;
     const taken = this.players.filter((q) => q.active).map((q) => q.heroId);
-    heroId = heroId && !taken.includes(heroId) ? heroId : CAST.find((c) => !taken.includes(c.id)).id;
-    const def = CAST.find((c) => c.id === heroId);
+    if (guest) heroId = guest.id;
+    else heroId = heroId && !taken.includes(heroId) ? heroId : CAST.find((c) => !taken.includes(c.id)).id;
+    const def = guest ?? CAST.find((c) => c.id === heroId);
     const x = this.world.cam + 70 + slot * 40;
     const hero = new Hero(def, x, { speed: HERO_WALK, slot, y: this.world.heroes.length ? 40 : this.world.terrain.solidAt(x) });
     if (this.world.heroes.length) hero.air = true;
@@ -146,7 +148,7 @@ export class GameSession {
   #clear() {
     this.state = 'clear';
     this.clearT = 0;
-    this.say('MISSION COMPLETE!', 'WALK STRAIGHT', 6, true);
+    this.say('MISSION COMPLETE!', this.def.name, 6, true);
     this.world.play('mission_complete');
   }
 

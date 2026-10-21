@@ -15,6 +15,13 @@ export const ENEMIES = {
     hp: 18, fireEvery: 1.1, burst: 1, reload: 1.6,
     walk: 60, run: 95, range: 190, melee: 40, score: 150, wear: true,
   },
+  // le bagarreur du niveau 2 (Metal Slug) : il fonce au contact et lance des bouteilles de loin
+  skinhead: {
+    id: 'skinhead', sprite: 'skinhead', name: 'SKINHEAD', color: '#c8a070',
+    side: 'enemy', ammo: 'bullet', pick: 'bullet', bullet: 300, muzzleFlash: false,
+    hp: 30, fireEvery: 1, burst: 1, reload: 2,
+    walk: 70, run: 130, range: 0, melee: 46, grenade: true, score: 120,
+  },
   // le mi-boss du niveau 1 : la télé géante « WALK STRAIGHT »
   tvgiant: {
     id: 'tvgiant', sprite: 'hommetv', name: 'WALK STRAIGHT', color: '#8fb0d8', scale: 2,

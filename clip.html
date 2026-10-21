@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.png">
+<meta name="color-scheme" content="dark">
+<!-- fond sombre tout de suite, avant le CSS (chargé par le JS) : pas d'écran blanc -->
+<style>html, body { background: #14110e; }</style>
+<title>Behind the Mask — clip Metal Slug</title>
+<link rel="stylesheet" href="/src/styles/pages/game.css">
+<script type="module" src="/src/pages/clip.js"></script>
+</head>
+<body class="game">
+<!-- le clip de démo sur « Metal Slug » : le morceau ne part qu'après un clic (règle des
+     navigateurs). clip.html#export : sans son, piloté image par image par tools/record_clip.mjs -->
+<main class="stage">
+<div class="borne borne--game"><div class="borne__screen" id="screen"></div></div>
+</main>
+<p class="help"><button class="clip-play" id="play" type="button">LANCER LE CLIP</button></p>
+<p class="help">la démo jouée toute seule sur <i>Metal Slug</i> (feat. Guillaume / Circles), paroles à l'écran ·
+  la vidéo : <kbd>npm run clip:video</kbd></p>
+<p class="help"><a href="index.html">retour au jeu</a></p>
+</body>
+</html>

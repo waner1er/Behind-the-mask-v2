@@ -5,20 +5,28 @@ import { CAST } from '../config/cast.js';
 import { PLAYER_KEYS } from '../config/controls.js';
 import { COLORS, FONT, TEXT_8, hex } from '../config/theme.js';
 import { KeyboardPad } from '../input/KeyboardPad.js';
+import { ATLAS, frameName, perso } from '../data/sprites.js';
 import { SoundPlayer } from '../audio/SoundPlayer.js';
 
 const PANEL = { w: 126, h: 160, top: 64, gap: 20 };
 const TIME = 30;                                   // s pour choisir, puis le choix se fait seul
 const CURSOR = [COLORS.accent, '#6fa8dc'];         // J1 orange, J2 bleu (la couleur de leurs tirs)
 const SHUTTER = 0.35;                              // s pour que le rideau de fer tombe
+const ZOOM = 1.5;                                  // les sprites du jeu, une fois et demie plus grands
+const GREY = 0x4a4740;                             // héros pas encore visé : dans l'ombre
 
-// La sélection des héros, façon « SOLDIER SELECT » de Metal Slug : quatre portraits grisés sur
-// un mur de métal, celui sous le curseur en couleur, le compte à rebours, et à la validation
+// La sélection des héros, façon « SOLDIER SELECT » de Metal Slug : les quatre héros tels qu'on
+// les voit en jeu, dans l'ombre sur un mur de métal ; celui sous le curseur s'éclaire et bouge, le compte à rebours, et à la validation
 // le nom crié par l'annonceur pendant que les rideaux de fer tombent sur les autres.
 // Les touches : ← → pour choisir, tir ou Start pour valider. Deux joueurs au plus.
 export class SelectScene extends Phaser.Scene {
   constructor() {
     super(SCENES.select);
+  }
+
+  // clip : le clip de démo (scenes/ClipScene.js) choisit le héros et garde sa musique
+  init({ clip = null } = {}) {
+    this.clip = clip;
   }
 
   create() {
@@ -32,8 +40,9 @@ export class SelectScene extends Phaser.Scene {
       this.#panelFrame(x, y);
       return {
         cast: c, x, y, cx: x + PANEL.w / 2,
-        grey: this.add.image(x, y, `portrait-${c.id}-gris`).setOrigin(0),
-        color: this.add.image(x, y, `portrait-${c.id}`).setOrigin(0).setVisible(false),
+        back: this.add.graphics(),
+        hero: this.add.image(0, 0, ATLAS).setScale(ZOOM),
+        hop: 0,                                    // le petit saut à la validation, de 1 à 0
         shutter: 0,                                // hauteur du rideau, de 0 à 1
         name: this.#namePlate(c, x + PANEL.w / 2, y + PANEL.h + 14),
       };
@@ -52,14 +61,16 @@ export class SelectScene extends Phaser.Scene {
       fontFamily: FONT, fontSize: '10px', color: '#000000', backgroundColor: CURSOR[pl.slot], padding: { x: 4, y: 3 },
     }).setOrigin(0.5, 1));
     this.arrows = this.add.graphics();
-    this.pads = PLAYER_KEYS.map((k, i) => new KeyboardPad(this.input.keyboard, k, { touch: i === 0 }));
+    this.pads = this.clip?.pads ?? PLAYER_KEYS.map((k, i) => new KeyboardPad(this.input.keyboard, k, { touch: i === 0 }));
     this.sfx = new SoundPlayer(this);
     this.left = TIME;
     this.doneT = -1;
     this.t = 0;
     this.music = this.sound.get(MUSIC.title) ?? this.sound.add(MUSIC.title, { loop: true, volume: 0.6 });
-    if (!this.music.isPlaying) this.music.play();
-    this.events.once('shutdown', () => this.music.stop());
+    if (!this.clip) {
+      if (!this.music.isPlaying) this.music.play();
+      this.events.once('shutdown', () => this.music.stop());
+    }
     if (import.meta.env.DEV) window.select = this;
     this.cameras.main.fadeIn(300);
   }
@@ -74,7 +85,7 @@ export class SelectScene extends Phaser.Scene {
       .setOrigin(0.5).setStroke('#3a2a10', 5);
   }
 
-  // un cadre de métal autour d'un portrait : bord sombre, liseré clair, rivets aux coins
+  // un cadre de métal autour d'une case : bord sombre, liseré clair, rivets aux coins
   #panelFrame(x, y) {
     const g = this.frames;
     g.fillStyle(0x0d0c0a).fillRect(x - 5, y - 5, PANEL.w + 10, PANEL.h + 10);
@@ -83,6 +94,25 @@ export class SelectScene extends Phaser.Scene {
     for (const [rx, ry] of [[x - 3, y - 3], [x + PANEL.w + 2, y - 3], [x - 3, y + PANEL.h + 2], [x + PANEL.w + 2, y + PANEL.h + 2]]) {
       g.fillStyle(0xb7a988).fillRect(rx - 1, ry - 1, 3, 3);
     }
+  }
+
+  // Le héros dans la case, en position de tir (l'image k : 0 en joue, 1 le coup part) : c'est
+  // la pose où son instrument se voit en entier. Centré dans la case, les pieds au sol, levé de `up`.
+  #pose(p, k, up) {
+    const fr = perso(p.cast.id).anims.shoot_fwd.frames[k];
+    const [, , w, , ax] = fr;
+    p.hero.setFrame(frameName(fr)).setPosition(Math.round(p.cx - (w / 2 - ax) * ZOOM), p.y + PANEL.h - 10 - up);
+  }
+
+  // le fond de la case : sombre, ou éclairé de la couleur du héros, et son ombre au sol
+  #backdrop(p, lit) {
+    const g = p.back.clear(), { x, y } = p;
+    g.fillStyle(0x15130f).fillRect(x, y, PANEL.w, PANEL.h);
+    if (lit) {
+      const c = hex(p.cast.color);
+      for (let k = 0; k < 6; k++) g.fillStyle(c, 0.05 + k * 0.035).fillRect(x, y + k * 16, PANEL.w, PANEL.h - k * 16);
+    }
+    g.fillStyle(0x000000, 0.5).fillEllipse(p.cx, y + PANEL.h - 10, 64, 10);
   }
 
   #namePlate(c, cx, cy) {
@@ -114,8 +144,9 @@ export class SelectScene extends Phaser.Scene {
     } else if ((this.doneT += dt) > 1.8 && !this.leaving) {
       this.leaving = true;
       this.cameras.main.fadeOut(400);
-      this.cameras.main.once('camerafadeoutcomplete', () => this.scene.start(SCENES.game, {
+      this.cameras.main.once('camerafadeoutcomplete', () => this.scene.start(this.clip?.next ?? SCENES.game, {
         players: this.players.map((pl) => (pl.joined ? { heroId: CAST[pl.index].id } : null)),
+        clip: this.clip,
       }));
     }
     this.timer.setText(String(Math.max(0, Math.ceil(this.left))));
@@ -138,11 +169,12 @@ export class SelectScene extends Phaser.Scene {
     if (ok) this.#confirm(pl);
   }
 
-  // validé : le nom crié par l'annonceur, le portrait qui flashe
+  // validé : le nom crié par l'annonceur, le héros qui flashe et saute
   #confirm(pl) {
     if (this.#taken(pl, pl.index)) return;
     pl.ready = true;
     pl.flash = 0.18;
+    this.panels[pl.index].hop = 1;
     this.sfx.play(CAST[pl.index].id);
   }
 
@@ -153,10 +185,14 @@ export class SelectScene extends Phaser.Scene {
     this.panels.forEach((p, i) => {
       const owner = this.players.find((pl) => pl.joined && pl.index === i);
       const lit = !!owner;
-      p.color.setVisible(lit);
-      p.grey.setVisible(!lit);
+      if (p.lit !== lit) { p.lit = lit; this.#backdrop(p, lit); }
+      // visé : il respire ; validé : il fait un petit saut en jouant son coup
+      p.hop = Math.max(0, p.hop - dt * 4);
+      const breath = lit && !owner.ready ? Math.round((Math.sin(this.t * 4) + 1) / 2) : 0;
+      this.#pose(p, p.hop > 0 ? 1 : 0, breath + Math.round(Math.sin(p.hop * Math.PI) * 12));
       const flash = owner?.ready && owner.flash > 0;
-      if (flash) { owner.flash -= dt; p.color.setTint(0xffffff).setTintMode(Phaser.TintModes.FILL); } else p.color.clearTint();
+      if (flash) { owner.flash -= dt; p.hero.setTint(0xffffff).setTintMode(Phaser.TintModes.FILL); } else if (lit) p.hero.clearTint();
+      else p.hero.setTint(GREY).setTintMode(Phaser.TintModes.MULTIPLY);
       p.name.setColor(lit ? CAST[i].color : COLORS.muted);
       // les rideaux de fer tombent sur les héros que personne n'a pris
       if (this.doneT >= 0 && !chosen.includes(i)) p.shutter = Math.min(1, p.shutter + dt / SHUTTER);
@@ -172,7 +208,7 @@ export class SelectScene extends Phaser.Scene {
     });
   }
 
-  // un rideau de fer (tôle ondulée) qui descend sur le portrait
+  // un rideau de fer (tôle ondulée) qui descend sur le héros
   #shutter(g, p) {
     const h = Math.round(PANEL.h * p.shutter);
     g.fillStyle(0x4c4a44).fillRect(p.x, p.y, PANEL.w, h);

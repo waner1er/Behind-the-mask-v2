@@ -151,7 +151,7 @@ export class WorldView {
     const flash = a.flashT > 0, dark = a.cfg?.wear ? Math.round(255 - 110 * a.damage()) : 255;
     for (const p of P.parts) {
       if (p.to <= p.from) continue;
-      const img = this.actors.take(frameName(p.fr));
+      const img = this.actors.take(frameName(p.fr), a.atlas);
       if (flash) img.setTint(0xffffff).setTintMode(Phaser.TintModes.FILL);
       else if (dark < 255) img.setTint((dark << 16) | (Math.round(dark * 0.92) << 8) | Math.round(dark * 0.88));
       img

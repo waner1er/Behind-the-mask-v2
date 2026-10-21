@@ -13,10 +13,21 @@ const names = new WeakMap();
 
 export function setSpriteIndex(json) {
   index = json;
-  for (const [who, p] of Object.entries(json.persos)) {
+  nameFrames(json.persos);
+  for (const [name, a] of Object.entries(json.fx)) a.frames.forEach((f, k) => names.set(f, `fx/${name}/${k}`));
+}
+
+// Des persos venus d'un autre atlas (l'invité du clip, tools/build_guest.py) : ils rejoignent
+// l'index ; leurs frames portent les mêmes noms, dans la texture de leur atlas.
+export function addPersos(json) {
+  Object.assign(sprites().persos, json.persos);
+  nameFrames(json.persos);
+}
+
+function nameFrames(persos) {
+  for (const [who, p] of Object.entries(persos)) {
     for (const [anim, a] of Object.entries(p.anims)) a.frames.forEach((f, k) => names.set(f, `persos/${who}/${anim}/${k}`));
   }
-  for (const [name, a] of Object.entries(json.fx)) a.frames.forEach((f, k) => names.set(f, `fx/${name}/${k}`));
 }
 
 export function sprites() {

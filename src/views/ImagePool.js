@@ -13,11 +13,14 @@ export class ImagePool {
 
   begin() { this.#used = 0; }
 
-  // une image remise à zéro, sur la frame demandée (son origine suit l'ancrage de la frame)
-  take(frame) {
+  // une image remise à zéro, sur la frame demandée (son origine suit l'ancrage de la frame) ;
+  // texture : une autre texture que celle du lot (l'atlas d'un invité)
+  take(frame, texture) {
+    texture ??= this.texture;
     let img = this.#items[this.#used];
-    if (img) img.setFrame(frame);
-    else this.#items.push(img = this.scene.add.image(0, 0, this.texture, frame).setDepth(this.depth));
+    if (img && img.texture.key !== texture) img.setTexture(texture, frame);
+    else if (img) img.setFrame(frame);
+    else this.#items.push(img = this.scene.add.image(0, 0, texture, frame).setDepth(this.depth));
     this.#used++;
     return img.setVisible(true).setAlpha(1).setRotation(0).setScale(1).setFlipX(false).setCrop().clearTint();
   }
