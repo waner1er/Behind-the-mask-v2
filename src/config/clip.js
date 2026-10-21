@@ -11,9 +11,9 @@ export const CLIP = {
     [6.6, 'right'], [7.2, 'right'], [7.8, 'right'], [8.6, 'left'], [9.2, 'left'], [9.8, 'left'],
     [10.6, 'fire'],
   ],
-  // l'invité, en joueur 2, quand il se met à chanter (1:09) : un mur explose devant Pete
-  // (breach s avant), les briques volent, et il sort du trou. Son atlas à part
-  // (tools/build_guest.py) : tee-shirt noir, micro à la main.
+  // l'invité, en joueur 2, quand il se met à chanter (1:09) : l'écran de la grosse TV éclate
+  // (breach s avant), et il en sort d'un bond. Son atlas à part (tools/build_guest.py) :
+  // tee-shirt noir, micro à la main.
   guest: {
     at: 69.5,
     breach: 0.7,
@@ -21,11 +21,17 @@ export const CLIP = {
     files: 'assets/sprites/guest/guillaume',      // .png, .json, .atlas.json
     band: 'CIRCLES',
   },
+  // Les TV cathodiques (atlas tools/build_clip_props.py) : des petites, au pied du mur tout le
+  // long du niveau (une tous les `every` px, à partir de `from`) ; et la grosse, sur son
+  // échafaudage, qui entre dans le champ à bigTv.at et retient la caméra jusqu'à l'arrivée de
+  // l'invité, qui sort de son écran.
+  tvs: { from: 230, every: 380, atlas: 'assets/clip/props' },
+  bigTv: { at: 58 },
   // Pete et Guillaume ensemble : à ces heures, ils se tournent l'un vers l'autre et lèvent le
   // micro (duo s) ; à son arrivée, Guillaume lance à Pete l'arme qu'il apporte (gift).
   duo: { at: [70.4, 80.8, 91.8], time: 1.3, gift: 'R' },
   // l'allure : la caméra atteint l'arène du boss vers `bossAt`, le Manager tombe vers `bossDown`
-  pace: { bossAt: 91, bossDown: 110 },
+  pace: { bossAt: 86, bossDown: 110 },
   // La montée en chaos : de plus en plus d'ennemis en renfort, et des armes de plus en plus
   // fournies, jusqu'au chaos du boss.
   //   reinforce : [heure, un renfort toutes les n s, au plus m ennemis debout]
@@ -34,4 +40,18 @@ export const CLIP = {
   weapons: [[0, 'pick'], [30, 'L'], [52, 'P'], [70, 'R'], [93, 'mix']],
   enemyTypes: ['skinhead', 'skinhead', 'crs'],
   fadeOut: 2,                         // fondu au noir sur la fin du morceau
+  // Les paroles : [temps, n° de ligne dans la section] (lignes non vides, à partir de 0),
+  // calées sur le morceau avec faster-whisper (horodatage des mots), à ±0,3 s. Pas de karaoké :
+  // pendant qu'une ligne est chantée, chaque ennemi qui tombe libère le mot chanté.
+  lyrics: [
+    [17.9, 0], [20.4, 1], [23.6, 2], [25.5, 3],
+    [31.9, 4], [35.4, 5],
+    [37.2, 0], [39.5, 1], [42.3, 2], [44.3, 3],
+    [47.5, 4], [51.0, 5], [54.5, 4], [58.0, 5],
+    [69.5, 6], [72.6, 7], [75.9, 8], [78.1, 9],
+    [81.0, 10], [83.8, 11], [86.6, 12], [89.4, 13],
+    [92.1, 14], [94.9, 15], [98.2, 16], [100.7, 17],
+    [103.4, 14], [106.1, 15], [109.2, 16], [111.9, 17],
+    [122.6, 17],
+  ],
 };

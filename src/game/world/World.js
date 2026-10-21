@@ -310,7 +310,10 @@ export class World {
       this.heroes.forEach((h) => { if (Math.abs(h.x - a.x) < reach && Math.abs(h.y - a.y) < 40 && sameLane(h, a.z)) h.takeHit(MELEE_DMG * (a.scale ?? 1), true); });
       return;
     }
-    const near = (x, y) => Math.abs(x - hx) < MELEE_REACH && Math.abs(y - a.y) < 50;
+    // tout ce qui est entre le corps et le poing (un ennemi collé contre lui est derrière le poing),
+    // et un peu au-delà
+    const lo = Math.min(a.x, hx) - MELEE_REACH / 2, hi = Math.max(a.x, hx) + MELEE_REACH / 2;
+    const near = (x, y) => x >= lo && x <= hi && Math.abs(y - a.y) < 50;
     this.enemies.forEach((e) => { if (e.alive() && near(e.x, e.y) && sameLane(e, a.z)) e.takeHit(MELEE_DMG * 2, true, a); });
     this.props.forEach((p) => { if (p.breakable() && near(p.x, p.y)) this.#hitProp(p, MELEE_DMG, a); });
     this.hostages.forEach((h) => { if (near(h.x, h.y) && sameLane(a, 0)) this.#free(h, a); });

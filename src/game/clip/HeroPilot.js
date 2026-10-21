@@ -3,6 +3,8 @@ import { W } from '../../config/screen.js';
 const REACH = 220;         // au-delà, il marche vers l'ennemi en tirant
 const LANE_OK = 6;         // écart de profondeur toléré avant de changer de file
 const RIGHT = 0.6;         // il ne va pas plus loin que 60 % de l'écran (la caméra le suit)
+const BEHIND = 110;        // l'invité trop loin derrière celui qu'il suit le rattrape
+const DODGE = { time: 1.5, lane: 28 };   // bloqué par une caisse : il passe devant elle (DEPTH.block)
 
 // Le joueur automatique du clip : ce qu'il ferait avec une manette ({ inp, press }), comme
 // l'Autopilot de la démo, mais face à la partie. Il avance en tirant par rafales, se met sur
@@ -22,22 +24,30 @@ export class HeroPilot {
     this.t = 0;
     this.jumpT = 2 + Math.random() * 2;
     this.bombT = 3;
+    this.dodgeT = 0;
   }
 
   // hold : il attend sur place (le clip est en avance) ; push : il fonce vers la droite en
   // tirant (en retard) ; intensity : la frénésie, de 0 à 1
   next(dt, world, { hold = false, push = false, intensity = 0 } = {}) {
     const h = this.hero;
-    this.t += dt; this.jumpT -= dt; this.bombT -= dt;
+    this.t += dt; this.jumpT -= dt; this.bombT -= dt; this.dodgeT -= dt;
+    if (h.blocked && !h.air) this.dodgeT = DODGE.time;
     this.intensity = intensity;
     const inp = { x: 0, y: 0, fire: false, lock: false }, press = {};
     if (!h.alive()) return { inp, press };
     const boss = world.boss;
     if (boss && boss.state !== 'enter' && !boss.defeated() && boss.fighting()) this.#boss(world, boss, inp, press);
     else {
-      const foe = this.#nearestFoe(world);
-      if (foe && !(push && foe.x < h.x - 30)) this.#fight(foe, inp, press, push);
+      // l'invité à la traîne retient la caméra : il rattrape d'abord celui qu'il suit
+      const lagging = this.follow && world.camLock === null && h.x < this.follow.x - BEHIND;
+      const foe = lagging ? null : this.#nearestFoe(world);
+      // pressé, il laisse les ennemis derrière lui, sauf dans une arène (il faut tous les battre)
+      const skip = push && world.camLock === null && foe && foe.x < h.x - 30;
+      if (foe && !skip) this.#fight(foe, inp, press, push);
       else this.#walk(world, hold, inp);
+      // contre une caisse : il change de file pour passer devant
+      if (this.dodgeT > 0 && Math.abs(DODGE.lane - h.z) > 2) inp.y = Math.sign(DODGE.lane - h.z);
       // pas plus loin que RIGHT : au-delà, il s'arrête et se tourne vers la droite
       if (inp.x > 0 && !inp.lock && h.x > world.cam + W * RIGHT) inp.lock = true;
     }

@@ -29,17 +29,17 @@ de tir, jambes identiques sur les 12 images debout (le jeu pose ces bustes sur l
 
 ```
 Pixel art sprite sheet for a Metal Slug style run-and-gun arcade game (Neo Geo era, SNK style).
-ONE character only: Arnaud, a stocky bald man with a short ginger-brown beard and black sunglasses, olive green military jacket over a dark t-shirt, a small olive backpack, khaki cargo pants, brown boots; he plays a black electric bass guitar with a cream pickguard and a maple neck, carried in front of him on a strap, both hands on it.
+ONE character only: Arnaud, a man in his forties with a completely SHAVED bald head (no hair at all, not even at the back or sides), NO glasses, a LONG full ginger-brown beard down to his chest covering the whole jaw and cheeks, a buttoned light grey-blue work shirt with two chest pockets, dark blue jeans, black and white Vans Old Skool sneakers, a small black backpack; he plays a black electric bass guitar with a cream pickguard and a maple neck, carried in front of him on a strap, both hands on it.
 
 Strict layout: a uniform grid of 8 columns x 4 rows, every cell the same size, separated by thin dark grey lines. Flat solid magenta background (#FF00FF) in every cell, no gradient, no floor, no cast shadow, no text, no labels, no numbers.
 The character always faces RIGHT (the game mirrors him for the left side), is drawn at the same scale in every frame (about 60% of the cell height when standing), and when he stands on the ground his feet rest on the same baseline near the bottom of the cell. Nothing crosses the cell borders.
 
 Row 1 — IDLE, 8 frames: standing ready, holding his bass, subtle breathing loop (shoulders rise and fall, bass bobs 1 pixel).
-Row 2 — WALK, 8 frames: full walk cycle with clearly alternating legs (contact, down, passing, up for each leg), arms and bass swinging slightly, slight head bob. The legs are clearly different in every frame.
+Row 2 — WALK, 8 frames, a real side-view walk cycle in profile where the legs clearly pass each other: 1 contact, right foot forward with the heel down, left leg back; 2 down, weight on the right leg, knees bent; 3 PASSING, the left leg swings forward under the body, knee raised, both legs close together; 4 up, the left foot reaching forward, right leg pushing off; 5 contact, LEFT foot forward with the heel down, right leg back (mirror of frame 1); 6 down; 7 PASSING, the right leg swings forward under the body, knee raised, legs together; 8 up. Arms swing opposite to the legs. In frames 3 and 7 the feet are NOT apart.
 Row 3 — JUMP, 8 frames: 1 crouch before take-off and 8 landing squash, both with the feet on the baseline; 2 take-off, 3 rising, 4 legs tucked, 5 apex, 6 falling, 7 falling with legs extended, all in the air: draw him a little higher in the cell, never cropped (the game handles the real jump height).
 Row 4 — CROUCH, 8 frames: 2 frames going down into a crouch, 2 frames crouched breathing, 4 frames crouch-walking forward.
 
-Style: crisp pixel art, Metal Slug proportions (big head, chunky hands and boots, exaggerated poses with anticipation and recoil), dark coloured outlines (not pure black), shading lit from the upper left, warm shadows, rich but limited palette, no anti-aliasing against the background, no blur, no motion lines.
+Style: crisp pixel art in the exact style of the Metal Slug soldiers (Marco Rossi proportions: slightly big head, chunky hands and sneakers, exaggerated poses with anticipation and recoil), a realistic likeness, NOT a caricature, neutral serious face (no grin, no pout), dark coloured outlines (not pure black), shading lit from the upper left, warm shadows, rich but limited palette, no military clothing, no cargo pants, no boots, no anti-aliasing against the background, no blur, no motion lines.
 The character, his clothes, his backpack and his black bass look exactly the same in every frame: same colours, same size, same details.
 ```
 
@@ -47,7 +47,7 @@ The character, his clothes, his backpack and his black bass look exactly the sam
 
 ```
 Pixel art sprite sheet for a Metal Slug style run-and-gun arcade game (Neo Geo era, SNK style).
-ONE character only: Arnaud, a stocky bald man with a short ginger-brown beard and black sunglasses, olive green military jacket over a dark t-shirt, a small olive backpack, khaki cargo pants, brown boots; he plays a black electric bass guitar with a cream pickguard and a maple neck. Same character design, scale and palette as the attached reference sheet.
+ONE character only: Arnaud, a man in his forties with a completely SHAVED bald head (no hair at all, not even at the back or sides), NO glasses, a LONG full ginger-brown beard down to his chest covering the whole jaw and cheeks, a buttoned light grey-blue work shirt with two chest pockets, dark blue jeans, black and white Vans Old Skool sneakers, a small black backpack; he plays a black electric bass guitar with a cream pickguard and a maple neck. Same character design, scale and palette as the attached reference sheet.
 
 Strict layout: a uniform grid of 6 columns x 4 rows, every cell the same size, separated by thin dark grey lines. Flat solid magenta background (#FF00FF) in every cell, no gradient, no floor, no cast shadow, no text, no labels, no numbers.
 The character always faces RIGHT (the game mirrors him for the left side), is drawn at the same scale in every frame (about 60% of the cell height when standing), and when he stands on the ground his feet rest on the same baseline near the bottom of the cell. Nothing crosses the cell borders.
@@ -64,7 +64,7 @@ Row 4 — frames 1-3 CROUCHED aiming forward; frames 4-6 IN THE AIR (same tucked
 Rows 1 and 2: from the belt down, the legs are EXACTLY the same in all 12 standing frames, identical to a neutral idle stance (same position, same pixels); the belt is always at the same height. Only the upper body, head, arms and instrument move. The game puts these upper bodies on the walking legs.
 Rows 3 and 4 in the air: the same tucked legs in all 6 air frames, drawn a little higher in the cell, never cropped.
 
-Style: crisp pixel art, Metal Slug proportions (big head, chunky hands and boots, exaggerated poses with anticipation and recoil), dark coloured outlines (not pure black), shading lit from the upper left, warm shadows, rich but limited palette, no anti-aliasing against the background, no blur, no motion lines.
+Style: crisp pixel art in the exact style of the Metal Slug soldiers (Marco Rossi proportions: slightly big head, chunky hands and sneakers, exaggerated poses with anticipation and recoil), a realistic likeness, NOT a caricature, neutral serious face (no grin, no pout), dark coloured outlines (not pure black), shading lit from the upper left, warm shadows, rich but limited palette, no military clothing, no cargo pants, no boots, no anti-aliasing against the background, no blur, no motion lines.
 The character, his clothes, his backpack and his black bass look exactly the same in every frame: same colours, same size, same details. The only weapon is his black bass.
 ```
 
@@ -72,7 +72,7 @@ The character, his clothes, his backpack and his black bass look exactly the sam
 
 ```
 Pixel art sprite sheet for a Metal Slug style run-and-gun arcade game (Neo Geo era, SNK style).
-ONE character only: Arnaud, a stocky bald man with a short ginger-brown beard and black sunglasses, olive green military jacket over a dark t-shirt, a small olive backpack, khaki cargo pants, brown boots; he plays a black electric bass guitar with a cream pickguard and a maple neck. Same character design, scale and palette as the attached reference sheet.
+ONE character only: Arnaud, a man in his forties with a completely SHAVED bald head (no hair at all, not even at the back or sides), NO glasses, a LONG full ginger-brown beard down to his chest covering the whole jaw and cheeks, a buttoned light grey-blue work shirt with two chest pockets, dark blue jeans, black and white Vans Old Skool sneakers, a small black backpack; he plays a black electric bass guitar with a cream pickguard and a maple neck. Same character design, scale and palette as the attached reference sheet.
 
 Strict layout: a uniform grid of 6 columns x 4 rows, every cell the same size, separated by thin dark grey lines. Flat solid magenta background (#FF00FF) in every cell, no gradient, no floor, no cast shadow, no text, no labels, no numbers.
 The character always faces RIGHT (the game mirrors him for the left side), is drawn at the same scale in every frame (about 60% of the cell height when standing), and when he stands on the ground his feet rest on the same baseline near the bottom of the cell. Nothing crosses the cell borders.
@@ -82,7 +82,7 @@ Row 2 — MELEE, close-range hit swinging his bass like a club: frames 1-3 stand
 Row 3 — frames 1-2 HURT (hit recoil backwards, pained face); frames 3-6 DEATH (falling backwards, hitting the ground, small bounce, lying flat on his back). The lying body fits entirely inside the cell, on the baseline.
 Row 4 — VICTORY, 6 frames, seamless loop: rock star celebration, raising his black bass above his head, shouting, then lowering it.
 
-Style: crisp pixel art, Metal Slug proportions (big head, chunky hands and boots, exaggerated poses with anticipation and recoil), dark coloured outlines (not pure black), shading lit from the upper left, warm shadows, rich but limited palette, no anti-aliasing against the background, no blur, no motion lines.
+Style: crisp pixel art in the exact style of the Metal Slug soldiers (Marco Rossi proportions: slightly big head, chunky hands and sneakers, exaggerated poses with anticipation and recoil), a realistic likeness, NOT a caricature, neutral serious face (no grin, no pout), dark coloured outlines (not pure black), shading lit from the upper left, warm shadows, rich but limited palette, no military clothing, no cargo pants, no boots, no anti-aliasing against the background, no blur, no motion lines.
 The character, his clothes, his backpack and his black bass look exactly the same in every frame: same colours, same size, same details. The only weapon is his black bass.
 ```
 
@@ -90,17 +90,17 @@ The character, his clothes, his backpack and his black bass look exactly the sam
 
 ```
 Pixel art sprite sheet for a Metal Slug style run-and-gun arcade game (Neo Geo era, SNK style).
-ONE character only: Baptiste, long wavy brown hair, grey-white beard, dark grey baseball cap, black hoodie with a small grey star emblem on the chest, olive cargo pants, brown boots; he plays a bright RED electric guitar (Stratocaster shape, white pickguard), carried in front of him on a strap, both hands on it.
+ONE character only: Baptiste, a man in his forties with SHORT tousled medium-brown hair (no cap, no long hair), a short trimmed salt-and-pepper beard close to the face, a grey and black plaid flannel shirt open over a white band t-shirt with a black print, black jeans, black Converse high-top sneakers; he plays a bright RED electric guitar (Stratocaster shape, white pickguard), carried in front of him on a strap, both hands on it.
 
 Strict layout: a uniform grid of 8 columns x 4 rows, every cell the same size, separated by thin dark grey lines. Flat solid magenta background (#FF00FF) in every cell, no gradient, no floor, no cast shadow, no text, no labels, no numbers.
 The character always faces RIGHT (the game mirrors him for the left side), is drawn at the same scale in every frame (about 60% of the cell height when standing), and when he stands on the ground his feet rest on the same baseline near the bottom of the cell. Nothing crosses the cell borders.
 
 Row 1 — IDLE, 8 frames: standing ready, holding his red guitar, subtle breathing loop (shoulders rise and fall, guitar bobs 1 pixel).
-Row 2 — WALK, 8 frames: full walk cycle with clearly alternating legs (contact, down, passing, up for each leg), arms and guitar swinging slightly, slight head bob. The legs are clearly different in every frame.
+Row 2 — WALK, 8 frames, a real side-view walk cycle in profile where the legs clearly pass each other: 1 contact, right foot forward with the heel down, left leg back; 2 down, weight on the right leg, knees bent; 3 PASSING, the left leg swings forward under the body, knee raised, both legs close together; 4 up, the left foot reaching forward, right leg pushing off; 5 contact, LEFT foot forward with the heel down, right leg back (mirror of frame 1); 6 down; 7 PASSING, the right leg swings forward under the body, knee raised, legs together; 8 up. Arms swing opposite to the legs. In frames 3 and 7 the feet are NOT apart.
 Row 3 — JUMP, 8 frames: 1 crouch before take-off and 8 landing squash, both with the feet on the baseline; 2 take-off, 3 rising, 4 legs tucked, 5 apex, 6 falling, 7 falling with legs extended, all in the air: draw him a little higher in the cell, never cropped (the game handles the real jump height).
 Row 4 — CROUCH, 8 frames: 2 frames going down into a crouch, 2 frames crouched breathing, 4 frames crouch-walking forward.
 
-Style: crisp pixel art, Metal Slug proportions (big head, chunky hands and boots, exaggerated poses with anticipation and recoil), dark coloured outlines (not pure black), shading lit from the upper left, warm shadows, rich but limited palette, no anti-aliasing against the background, no blur, no motion lines.
+Style: crisp pixel art in the exact style of the Metal Slug soldiers (Marco Rossi proportions: slightly big head, chunky hands and sneakers, exaggerated poses with anticipation and recoil), a realistic likeness, NOT a caricature, neutral serious face (no grin, no pout), dark coloured outlines (not pure black), shading lit from the upper left, warm shadows, rich but limited palette, no military clothing, no cargo pants, no boots, no anti-aliasing against the background, no blur, no motion lines.
 The character, his clothes and his guitar look exactly the same in every frame: same colours, same size, same details. The guitar is ALWAYS bright red with a white pickguard, never wood or brown.
 ```
 
@@ -108,7 +108,7 @@ The character, his clothes and his guitar look exactly the same in every frame: 
 
 ```
 Pixel art sprite sheet for a Metal Slug style run-and-gun arcade game (Neo Geo era, SNK style).
-ONE character only: Baptiste, long wavy brown hair, grey-white beard, dark grey baseball cap, black hoodie with a small grey star emblem on the chest, olive cargo pants, brown boots; he plays a bright RED electric guitar (Stratocaster shape, white pickguard). Same character design, scale and palette as the attached reference sheet.
+ONE character only: Baptiste, a man in his forties with SHORT tousled medium-brown hair (no cap, no long hair), a short trimmed salt-and-pepper beard close to the face, a grey and black plaid flannel shirt open over a white band t-shirt with a black print, black jeans, black Converse high-top sneakers; he plays a bright RED electric guitar (Stratocaster shape, white pickguard). Same character design, scale and palette as the attached reference sheet.
 
 Strict layout: a uniform grid of 6 columns x 4 rows, every cell the same size, separated by thin dark grey lines. Flat solid magenta background (#FF00FF) in every cell, no gradient, no floor, no cast shadow, no text, no labels, no numbers.
 The character always faces RIGHT (the game mirrors him for the left side), is drawn at the same scale in every frame (about 60% of the cell height when standing), and when he stands on the ground his feet rest on the same baseline near the bottom of the cell. Nothing crosses the cell borders.
@@ -125,7 +125,7 @@ Row 4 — frames 1-3 CROUCHED aiming forward; frames 4-6 IN THE AIR (same tucked
 Rows 1 and 2: from the belt down, the legs are EXACTLY the same in all 12 standing frames, identical to a neutral idle stance (same position, same pixels); the belt is always at the same height. Only the upper body, head, arms and instrument move. The game puts these upper bodies on the walking legs.
 Rows 3 and 4 in the air: the same tucked legs in all 6 air frames, drawn a little higher in the cell, never cropped.
 
-Style: crisp pixel art, Metal Slug proportions (big head, chunky hands and boots, exaggerated poses with anticipation and recoil), dark coloured outlines (not pure black), shading lit from the upper left, warm shadows, rich but limited palette, no anti-aliasing against the background, no blur, no motion lines.
+Style: crisp pixel art in the exact style of the Metal Slug soldiers (Marco Rossi proportions: slightly big head, chunky hands and sneakers, exaggerated poses with anticipation and recoil), a realistic likeness, NOT a caricature, neutral serious face (no grin, no pout), dark coloured outlines (not pure black), shading lit from the upper left, warm shadows, rich but limited palette, no military clothing, no cargo pants, no boots, no anti-aliasing against the background, no blur, no motion lines.
 The character, his clothes and his guitar look exactly the same in every frame: same colours, same size, same details. The guitar is ALWAYS bright red with a white pickguard, never wood or brown. The only weapon is his red guitar.
 ```
 
@@ -133,7 +133,7 @@ The character, his clothes and his guitar look exactly the same in every frame: 
 
 ```
 Pixel art sprite sheet for a Metal Slug style run-and-gun arcade game (Neo Geo era, SNK style).
-ONE character only: Baptiste, long wavy brown hair, grey-white beard, dark grey baseball cap, black hoodie with a small grey star emblem on the chest, olive cargo pants, brown boots; he plays a bright RED electric guitar (Stratocaster shape, white pickguard). Same character design, scale and palette as the attached reference sheet.
+ONE character only: Baptiste, a man in his forties with SHORT tousled medium-brown hair (no cap, no long hair), a short trimmed salt-and-pepper beard close to the face, a grey and black plaid flannel shirt open over a white band t-shirt with a black print, black jeans, black Converse high-top sneakers; he plays a bright RED electric guitar (Stratocaster shape, white pickguard). Same character design, scale and palette as the attached reference sheet.
 
 Strict layout: a uniform grid of 6 columns x 4 rows, every cell the same size, separated by thin dark grey lines. Flat solid magenta background (#FF00FF) in every cell, no gradient, no floor, no cast shadow, no text, no labels, no numbers.
 The character always faces RIGHT (the game mirrors him for the left side), is drawn at the same scale in every frame (about 60% of the cell height when standing), and when he stands on the ground his feet rest on the same baseline near the bottom of the cell. Nothing crosses the cell borders.
@@ -143,7 +143,7 @@ Row 2 — MELEE, close-range hit swinging his red guitar like a club: frames 1-3
 Row 3 — frames 1-2 HURT (hit recoil backwards, pained face); frames 3-6 DEATH (falling backwards, hitting the ground, small bounce, lying flat on his back). The lying body fits entirely inside the cell, on the baseline.
 Row 4 — VICTORY, 6 frames, seamless loop: rock star celebration, raising his red guitar above his head, shouting, then lowering it.
 
-Style: crisp pixel art, Metal Slug proportions (big head, chunky hands and boots, exaggerated poses with anticipation and recoil), dark coloured outlines (not pure black), shading lit from the upper left, warm shadows, rich but limited palette, no anti-aliasing against the background, no blur, no motion lines.
+Style: crisp pixel art in the exact style of the Metal Slug soldiers (Marco Rossi proportions: slightly big head, chunky hands and sneakers, exaggerated poses with anticipation and recoil), a realistic likeness, NOT a caricature, neutral serious face (no grin, no pout), dark coloured outlines (not pure black), shading lit from the upper left, warm shadows, rich but limited palette, no military clothing, no cargo pants, no boots, no anti-aliasing against the background, no blur, no motion lines.
 The character, his clothes and his guitar look exactly the same in every frame: same colours, same size, same details. The guitar is ALWAYS bright red with a white pickguard, never wood or brown. The only weapon is his red guitar.
 ```
 
@@ -151,17 +151,17 @@ The character, his clothes and his guitar look exactly the same in every frame: 
 
 ```
 Pixel art sprite sheet for a Metal Slug style run-and-gun arcade game (Neo Geo era, SNK style).
-ONE character only: Erwan, short brown beard, glasses, black baseball cap, black jacket over a dark t-shirt, olive pants, brown boots, a small snare drum strapped on his back; he holds two short light-wood drumsticks with round tips, one in each hand, one drumstick in each hand.
+ONE character only: Erwan, a slim man in his forties with a shaved head under a flat-brim green and black Boston Celtics baseball cap (green crown, black visor, the Celtics logo on the front), thick black-rimmed glasses, clean-shaven, a black zip hoodie open over a black band t-shirt with a white print, dark grey jeans, black and white Vans Old Skool sneakers, a small snare drum strapped on his back; he holds two short light-wood drumsticks with round tips, one in each hand, one drumstick in each hand.
 
 Strict layout: a uniform grid of 8 columns x 4 rows, every cell the same size, separated by thin dark grey lines. Flat solid magenta background (#FF00FF) in every cell, no gradient, no floor, no cast shadow, no text, no labels, no numbers.
 The character always faces RIGHT (the game mirrors him for the left side), is drawn at the same scale in every frame (about 60% of the cell height when standing), and when he stands on the ground his feet rest on the same baseline near the bottom of the cell. Nothing crosses the cell borders.
 
 Row 1 — IDLE, 8 frames: standing ready, a drumstick in each hand, twirling one drumstick, subtle breathing loop (shoulders rise and fall).
-Row 2 — WALK, 8 frames: full walk cycle with clearly alternating legs (contact, down, passing, up for each leg), arms swinging with the drumsticks, snare drum bouncing on his back, slight head bob. The legs are clearly different in every frame.
+Row 2 — WALK, 8 frames, a real side-view walk cycle in profile where the legs clearly pass each other: 1 contact, right foot forward with the heel down, left leg back; 2 down, weight on the right leg, knees bent; 3 PASSING, the left leg swings forward under the body, knee raised, both legs close together; 4 up, the left foot reaching forward, right leg pushing off; 5 contact, LEFT foot forward with the heel down, right leg back (mirror of frame 1); 6 down; 7 PASSING, the right leg swings forward under the body, knee raised, legs together; 8 up. Arms swing opposite to the legs. In frames 3 and 7 the feet are NOT apart.
 Row 3 — JUMP, 8 frames: 1 crouch before take-off and 8 landing squash, both with the feet on the baseline; 2 take-off, 3 rising, 4 legs tucked, 5 apex, 6 falling, 7 falling with legs extended, all in the air: draw him a little higher in the cell, never cropped (the game handles the real jump height).
 Row 4 — CROUCH, 8 frames: 2 frames going down into a crouch, 2 frames crouched breathing, 4 frames crouch-walking forward.
 
-Style: crisp pixel art, Metal Slug proportions (big head, chunky hands and boots, exaggerated poses with anticipation and recoil), dark coloured outlines (not pure black), shading lit from the upper left, warm shadows, rich but limited palette, no anti-aliasing against the background, no blur, no motion lines.
+Style: crisp pixel art in the exact style of the Metal Slug soldiers (Marco Rossi proportions: slightly big head, chunky hands and sneakers, exaggerated poses with anticipation and recoil), a realistic likeness, NOT a caricature, neutral serious face (no grin, no pout), dark coloured outlines (not pure black), shading lit from the upper left, warm shadows, rich but limited palette, no military clothing, no cargo pants, no boots, no anti-aliasing against the background, no blur, no motion lines.
 The character, his clothes, his snare drum and his drumsticks look exactly the same in every frame: same colours, same size, same details. The drumsticks are short (forearm length), light wood, with round tips, like real drumsticks.
 ```
 
@@ -169,7 +169,7 @@ The character, his clothes, his snare drum and his drumsticks look exactly the s
 
 ```
 Pixel art sprite sheet for a Metal Slug style run-and-gun arcade game (Neo Geo era, SNK style).
-ONE character only: Erwan, short brown beard, glasses, black baseball cap, black jacket over a dark t-shirt, olive pants, brown boots, a small snare drum strapped on his back; he holds two short light-wood drumsticks with round tips, one in each hand. Same character design, scale and palette as the attached reference sheet.
+ONE character only: Erwan, a slim man in his forties with a shaved head under a flat-brim green and black Boston Celtics baseball cap (green crown, black visor, the Celtics logo on the front), thick black-rimmed glasses, clean-shaven, a black zip hoodie open over a black band t-shirt with a white print, dark grey jeans, black and white Vans Old Skool sneakers, a small snare drum strapped on his back; he holds two short light-wood drumsticks with round tips, one in each hand. Same character design, scale and palette as the attached reference sheet.
 
 Strict layout: a uniform grid of 6 columns x 4 rows, every cell the same size, separated by thin dark grey lines. Flat solid magenta background (#FF00FF) in every cell, no gradient, no floor, no cast shadow, no text, no labels, no numbers.
 The character always faces RIGHT (the game mirrors him for the left side), is drawn at the same scale in every frame (about 60% of the cell height when standing), and when he stands on the ground his feet rest on the same baseline near the bottom of the cell. Nothing crosses the cell borders.
@@ -186,7 +186,7 @@ Row 4 — frames 1-3 CROUCHED aiming forward; frames 4-6 IN THE AIR (same tucked
 Rows 1 and 2: from the belt down, the legs are EXACTLY the same in all 12 standing frames, identical to a neutral idle stance (same position, same pixels); the belt is always at the same height. Only the upper body, head, arms and instrument move. The game puts these upper bodies on the walking legs.
 Rows 3 and 4 in the air: the same tucked legs in all 6 air frames, drawn a little higher in the cell, never cropped.
 
-Style: crisp pixel art, Metal Slug proportions (big head, chunky hands and boots, exaggerated poses with anticipation and recoil), dark coloured outlines (not pure black), shading lit from the upper left, warm shadows, rich but limited palette, no anti-aliasing against the background, no blur, no motion lines.
+Style: crisp pixel art in the exact style of the Metal Slug soldiers (Marco Rossi proportions: slightly big head, chunky hands and sneakers, exaggerated poses with anticipation and recoil), a realistic likeness, NOT a caricature, neutral serious face (no grin, no pout), dark coloured outlines (not pure black), shading lit from the upper left, warm shadows, rich but limited palette, no military clothing, no cargo pants, no boots, no anti-aliasing against the background, no blur, no motion lines.
 The character, his clothes, his snare drum and his drumsticks look exactly the same in every frame: same colours, same size, same details. The drumsticks are short (forearm length), light wood, with round tips, like real drumsticks. The only weapons are his two short drumsticks.
 ```
 
@@ -194,7 +194,7 @@ The character, his clothes, his snare drum and his drumsticks look exactly the s
 
 ```
 Pixel art sprite sheet for a Metal Slug style run-and-gun arcade game (Neo Geo era, SNK style).
-ONE character only: Erwan, short brown beard, glasses, black baseball cap, black jacket over a dark t-shirt, olive pants, brown boots, a small snare drum strapped on his back; he holds two short light-wood drumsticks with round tips, one in each hand. Same character design, scale and palette as the attached reference sheet.
+ONE character only: Erwan, a slim man in his forties with a shaved head under a flat-brim green and black Boston Celtics baseball cap (green crown, black visor, the Celtics logo on the front), thick black-rimmed glasses, clean-shaven, a black zip hoodie open over a black band t-shirt with a white print, dark grey jeans, black and white Vans Old Skool sneakers, a small snare drum strapped on his back; he holds two short light-wood drumsticks with round tips, one in each hand. Same character design, scale and palette as the attached reference sheet.
 
 Strict layout: a uniform grid of 6 columns x 4 rows, every cell the same size, separated by thin dark grey lines. Flat solid magenta background (#FF00FF) in every cell, no gradient, no floor, no cast shadow, no text, no labels, no numbers.
 The character always faces RIGHT (the game mirrors him for the left side), is drawn at the same scale in every frame (about 60% of the cell height when standing), and when he stands on the ground his feet rest on the same baseline near the bottom of the cell. Nothing crosses the cell borders.
@@ -204,7 +204,7 @@ Row 2 — MELEE, close-range hit striking down hard with both drumsticks like a 
 Row 3 — frames 1-2 HURT (hit recoil backwards, pained face); frames 3-6 DEATH (falling backwards, hitting the ground, small bounce, lying flat on his back). The lying body fits entirely inside the cell, on the baseline.
 Row 4 — VICTORY, 6 frames, seamless loop: rock star celebration, raising his two drumsticks above his head, shouting, then lowering it.
 
-Style: crisp pixel art, Metal Slug proportions (big head, chunky hands and boots, exaggerated poses with anticipation and recoil), dark coloured outlines (not pure black), shading lit from the upper left, warm shadows, rich but limited palette, no anti-aliasing against the background, no blur, no motion lines.
+Style: crisp pixel art in the exact style of the Metal Slug soldiers (Marco Rossi proportions: slightly big head, chunky hands and sneakers, exaggerated poses with anticipation and recoil), a realistic likeness, NOT a caricature, neutral serious face (no grin, no pout), dark coloured outlines (not pure black), shading lit from the upper left, warm shadows, rich but limited palette, no military clothing, no cargo pants, no boots, no anti-aliasing against the background, no blur, no motion lines.
 The character, his clothes, his snare drum and his drumsticks look exactly the same in every frame: same colours, same size, same details. The drumsticks are short (forearm length), light wood, with round tips, like real drumsticks. The only weapons are his two short drumsticks.
 ```
 
@@ -212,17 +212,17 @@ The character, his clothes, his snare drum and his drumsticks look exactly the s
 
 ```
 Pixel art sprite sheet for a Metal Slug style run-and-gun arcade game (Neo Geo era, SNK style).
-ONE character only: Pierre, short beard, navy baseball cap with a small round gold logo, red and black plaid flannel shirt open over a white t-shirt, blue jeans, brown boots; he holds a black handheld microphone with a short coiled black cable, the microphone in his front hand.
+ONE character only: Pierre, a man in his late thirties, clean-shaven (NO beard), short dark hair under a plain BLACK baseball cap with a small round logo, red and black plaid flannel shirt with rolled sleeves, open over a white t-shirt with a black print, blue jeans, black Converse high-top sneakers with white toe caps; he holds a black handheld microphone with a short coiled black cable, the microphone in his front hand.
 
 Strict layout: a uniform grid of 8 columns x 4 rows, every cell the same size, separated by thin dark grey lines. Flat solid magenta background (#FF00FF) in every cell, no gradient, no floor, no cast shadow, no text, no labels, no numbers.
 The character always faces RIGHT (the game mirrors him for the left side), is drawn at the same scale in every frame (about 60% of the cell height when standing), and when he stands on the ground his feet rest on the same baseline near the bottom of the cell. Nothing crosses the cell borders.
 
 Row 1 — IDLE, 8 frames: standing ready, microphone in his hand, subtle breathing loop (shoulders rise and fall, short cable swaying).
-Row 2 — WALK, 8 frames: full walk cycle with clearly alternating legs (contact, down, passing, up for each leg), arms swinging, short microphone cable swaying, slight head bob. The legs are clearly different in every frame.
+Row 2 — WALK, 8 frames, a real side-view walk cycle in profile where the legs clearly pass each other: 1 contact, right foot forward with the heel down, left leg back; 2 down, weight on the right leg, knees bent; 3 PASSING, the left leg swings forward under the body, knee raised, both legs close together; 4 up, the left foot reaching forward, right leg pushing off; 5 contact, LEFT foot forward with the heel down, right leg back (mirror of frame 1); 6 down; 7 PASSING, the right leg swings forward under the body, knee raised, legs together; 8 up. Arms swing opposite to the legs. In frames 3 and 7 the feet are NOT apart. The short microphone cable sways.
 Row 3 — JUMP, 8 frames: 1 crouch before take-off and 8 landing squash, both with the feet on the baseline; 2 take-off, 3 rising, 4 legs tucked, 5 apex, 6 falling, 7 falling with legs extended, all in the air: draw him a little higher in the cell, never cropped (the game handles the real jump height).
 Row 4 — CROUCH, 8 frames: 2 frames going down into a crouch, 2 frames crouched breathing, 4 frames crouch-walking forward.
 
-Style: crisp pixel art, Metal Slug proportions (big head, chunky hands and boots, exaggerated poses with anticipation and recoil), dark coloured outlines (not pure black), shading lit from the upper left, warm shadows, rich but limited palette, no anti-aliasing against the background, no blur, no motion lines.
+Style: crisp pixel art in the exact style of the Metal Slug soldiers (Marco Rossi proportions: slightly big head, chunky hands and sneakers, exaggerated poses with anticipation and recoil), a realistic likeness, NOT a caricature, neutral serious face (no grin, no pout), dark coloured outlines (not pure black), shading lit from the upper left, warm shadows, rich but limited palette, no military clothing, no cargo pants, no boots, no anti-aliasing against the background, no blur, no motion lines.
 The character, his clothes and his microphone look exactly the same in every frame: same colours, same size, same details. The cable is short and coiled, like a real microphone cable.
 ```
 
@@ -230,7 +230,7 @@ The character, his clothes and his microphone look exactly the same in every fra
 
 ```
 Pixel art sprite sheet for a Metal Slug style run-and-gun arcade game (Neo Geo era, SNK style).
-ONE character only: Pierre, short beard, navy baseball cap with a small round gold logo, red and black plaid flannel shirt open over a white t-shirt, blue jeans, brown boots; he holds a black handheld microphone with a short coiled black cable. Same character design, scale and palette as the attached reference sheet.
+ONE character only: Pierre, a man in his late thirties, clean-shaven (NO beard), short dark hair under a plain BLACK baseball cap with a small round logo, red and black plaid flannel shirt with rolled sleeves, open over a white t-shirt with a black print, blue jeans, black Converse high-top sneakers with white toe caps; he holds a black handheld microphone with a short coiled black cable. Same character design, scale and palette as the attached reference sheet.
 
 Strict layout: a uniform grid of 6 columns x 4 rows, every cell the same size, separated by thin dark grey lines. Flat solid magenta background (#FF00FF) in every cell, no gradient, no floor, no cast shadow, no text, no labels, no numbers.
 The character always faces RIGHT (the game mirrors him for the left side), is drawn at the same scale in every frame (about 60% of the cell height when standing), and when he stands on the ground his feet rest on the same baseline near the bottom of the cell. Nothing crosses the cell borders.
@@ -247,7 +247,7 @@ Row 4 — frames 1-3 CROUCHED aiming forward; frames 4-6 IN THE AIR (same tucked
 Rows 1 and 2: from the belt down, the legs are EXACTLY the same in all 12 standing frames, identical to a neutral idle stance (same position, same pixels); the belt is always at the same height. Only the upper body, head, arms and instrument move. The game puts these upper bodies on the walking legs.
 Rows 3 and 4 in the air: the same tucked legs in all 6 air frames, drawn a little higher in the cell, never cropped.
 
-Style: crisp pixel art, Metal Slug proportions (big head, chunky hands and boots, exaggerated poses with anticipation and recoil), dark coloured outlines (not pure black), shading lit from the upper left, warm shadows, rich but limited palette, no anti-aliasing against the background, no blur, no motion lines.
+Style: crisp pixel art in the exact style of the Metal Slug soldiers (Marco Rossi proportions: slightly big head, chunky hands and sneakers, exaggerated poses with anticipation and recoil), a realistic likeness, NOT a caricature, neutral serious face (no grin, no pout), dark coloured outlines (not pure black), shading lit from the upper left, warm shadows, rich but limited palette, no military clothing, no cargo pants, no boots, no anti-aliasing against the background, no blur, no motion lines.
 The character, his clothes and his microphone look exactly the same in every frame: same colours, same size, same details. The cable is short and coiled, like a real microphone cable. The only weapon is his microphone.
 ```
 
@@ -255,7 +255,7 @@ The character, his clothes and his microphone look exactly the same in every fra
 
 ```
 Pixel art sprite sheet for a Metal Slug style run-and-gun arcade game (Neo Geo era, SNK style).
-ONE character only: Pierre, short beard, navy baseball cap with a small round gold logo, red and black plaid flannel shirt open over a white t-shirt, blue jeans, brown boots; he holds a black handheld microphone with a short coiled black cable. Same character design, scale and palette as the attached reference sheet.
+ONE character only: Pierre, a man in his late thirties, clean-shaven (NO beard), short dark hair under a plain BLACK baseball cap with a small round logo, red and black plaid flannel shirt with rolled sleeves, open over a white t-shirt with a black print, blue jeans, black Converse high-top sneakers with white toe caps; he holds a black handheld microphone with a short coiled black cable. Same character design, scale and palette as the attached reference sheet.
 
 Strict layout: a uniform grid of 6 columns x 4 rows, every cell the same size, separated by thin dark grey lines. Flat solid magenta background (#FF00FF) in every cell, no gradient, no floor, no cast shadow, no text, no labels, no numbers.
 The character always faces RIGHT (the game mirrors him for the left side), is drawn at the same scale in every frame (about 60% of the cell height when standing), and when he stands on the ground his feet rest on the same baseline near the bottom of the cell. Nothing crosses the cell borders.
@@ -265,7 +265,7 @@ Row 2 — MELEE, close-range hit hitting with the microphone held in his fist, t
 Row 3 — frames 1-2 HURT (hit recoil backwards, pained face); frames 3-6 DEATH (falling backwards, hitting the ground, small bounce, lying flat on his back). The lying body fits entirely inside the cell, on the baseline.
 Row 4 — VICTORY, 6 frames, seamless loop: rock star celebration, raising his microphone above his head, shouting, then lowering it.
 
-Style: crisp pixel art, Metal Slug proportions (big head, chunky hands and boots, exaggerated poses with anticipation and recoil), dark coloured outlines (not pure black), shading lit from the upper left, warm shadows, rich but limited palette, no anti-aliasing against the background, no blur, no motion lines.
+Style: crisp pixel art in the exact style of the Metal Slug soldiers (Marco Rossi proportions: slightly big head, chunky hands and sneakers, exaggerated poses with anticipation and recoil), a realistic likeness, NOT a caricature, neutral serious face (no grin, no pout), dark coloured outlines (not pure black), shading lit from the upper left, warm shadows, rich but limited palette, no military clothing, no cargo pants, no boots, no anti-aliasing against the background, no blur, no motion lines.
 The character, his clothes and his microphone look exactly the same in every frame: same colours, same size, same details. The cable is short and coiled, like a real microphone cable. The only weapon is his microphone.
 ```
 

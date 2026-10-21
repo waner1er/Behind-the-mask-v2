@@ -364,7 +364,8 @@ def read_perso(src_dir, who, ctl_dir, warn):
     for k, (src, cells, grid) in sliced.items():
         spec = LAYOUT['planches'][k]
         h_ref = H or med_height(k, spec['sol'])
-        s = out_h / h_ref
+        # une planche où le perso est dessiné plus petit que sur les déplacements : réglage à la main
+        s = out_h / h_ref * LAYOUT.get('echelles', {}).get(f'{who}-{k}', 1)
         ac = anim_cells(spec, cells)
         # ligne de sol de la planche : bas médian des anims « au sol », relatif au haut de la case
         bots = [c['box'][3] - c['cell'][1] for n in spec['sol'] for c in ac.get(n, []) if c]

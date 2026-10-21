@@ -5,6 +5,7 @@ import { CLIP } from '../config/clip.js';
 import { COLORS, FONT, TEXT_8 } from '../config/theme.js';
 import { ScriptedPad } from '../input/ScriptedPad.js';
 import { addPersos } from '../data/sprites.js';
+import { PROPS } from './ClipGameScene.js';
 
 const CAPTION = [0.6, 4.8];            // le titre du morceau, sur l'écran de garde
 const GUEST_TIME = 4;                  // le bandeau de l'invité reste 4 s
@@ -33,6 +34,8 @@ export class ClipScene extends Phaser.Scene {
     const { def, files } = CLIP.guest;
     this.load.atlas(def.atlas, `${files}.png`, `${files}.atlas.json`);
     this.load.json('guest-index', `${files}.json`);
+    const props = CLIP.tvs.atlas;
+    this.load.atlas(PROPS, `${props}.png`, `${props}.atlas.json`);
   }
 
   create() {
@@ -44,6 +47,12 @@ export class ClipScene extends Phaser.Scene {
     this.#overlay(W, H);
     this.music = this.sound.get(MUSIC.title) ?? this.sound.add(MUSIC.title, { volume: 0.9 });
     if (!this.exporting) this.music.play({ loop: false, seek: 0 });
+    // C'est un clip : il continue quand la fenêtre perd le focus (curseur ailleurs, autre
+    // fenêtre). Seul un onglet caché l'arrête (le navigateur ne dessine plus) : le morceau se met
+    // alors en pause avec lui, pour repartir ensemble.
+    this.sound.pauseOnBlur = false;
+    this.game.events.on(Phaser.Core.Events.HIDDEN, () => this.music.isPlaying && this.music.pause());
+    this.game.events.on(Phaser.Core.Events.VISIBLE, () => this.music.isPaused && this.music.resume());
     this.done = false;
     this.scene.launch(SCENES.title, { clip: this.clip });
     if (import.meta.env.DEV) window.clip = this;
@@ -68,7 +77,7 @@ export class ClipScene extends Phaser.Scene {
   update(time, delta) {
     // en direct, l'heure est celle du morceau ; à l'export, celle du jeu
     if (!this.exporting && this.music.isPlaying) this.clock.t = this.music.seek;
-    else this.clock.t += delta / 1000;
+    else if (!this.music.isPaused) this.clock.t += delta / 1000;
     const t = this.clock.t;
     this.#caption(t);
     this.#guest(t);

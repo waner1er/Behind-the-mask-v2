@@ -77,6 +77,8 @@ python3 -m venv .venv && .venv/bin/pip install -r tools/requirements.txt
 .venv/bin/python tools/build_logo.py                                    # le logo VIGILANTE / BEHIND THE MASK de l'écran de garde → public/assets/title/
 .venv/bin/python tools/build_select.py                                  # portraits et fond de la sélection → public/assets/select/
                                                                         # (prend ressources/sources/select-portraits.png, la planche toon de Figma, si elle est là)
+.venv/bin/python tools/build_clip_props.py                              # les TV cathodiques du clip → public/assets/clip/
+.venv/bin/python tools/build_guest.py guillaume                         # l'invité du clip → public/assets/sprites/guest/
 ```
 
 Les sons sont décrits dans `tools/sons.json` :
