@@ -110,7 +110,7 @@
     {
       "id": "g2",
       "type": "garage",
-      "x": 3320,
+      "x": 3480,
       "y": 292
     },
     {
@@ -270,7 +270,6 @@
     },
     {
       "at": 2550,
-      "lock": true,
       "say": "INSERT COIN!",
       "sub": "SHOOT THEM ALL",
       "spawn": [

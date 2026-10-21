@@ -21,12 +21,13 @@ export const CLIP = {
     files: 'assets/sprites/guest/guillaume',      // .png, .json, .atlas.json
     band: 'CIRCLES',
   },
-  // Les TV cathodiques (atlas tools/build_clip_props.py) : des petites, au pied du mur tout le
-  // long du niveau (une tous les `every` px, à partir de `from`) ; et la grosse, sur son
-  // échafaudage, qui entre dans le champ à bigTv.at et retient la caméra jusqu'à l'arrivée de
-  // l'invité, qui sort de son écran.
-  tvs: { from: 230, every: 380, atlas: 'assets/clip/props' },
-  bigTv: { at: 58 },
+  // Les TV cathodiques (atlas tools/build_clip_props.py), dans la vitrine du vidéoclub du décor
+  // (shop : son cadre dans l'image de la rue, à la place de l'affiche Double Dragon). La rue
+  // répète le décor : la vitrine revient à chaque tronçon. Dans celle n° bigTv.window, la grosse
+  // TV (surmontée de deux petites) retient la caméra jusqu'à l'arrivée de l'invité, qui sort de
+  // son écran ; dans les autres, des petites TV empilées.
+  tvs: { atlas: 'assets/clip/props', shop: { x: 1409, y: 130, w: 88, h: 102 } },
+  bigTv: { window: 1 },
   // Pete et Guillaume ensemble : à ces heures, ils se tournent l'un vers l'autre et lèvent le
   // micro (duo s) ; à son arrivée, Guillaume lance à Pete l'arme qu'il apporte (gift).
   duo: { at: [70.4, 80.8, 91.8], time: 1.3, gift: 'R' },
@@ -42,7 +43,7 @@ export const CLIP = {
   fadeOut: 2,                         // fondu au noir sur la fin du morceau
   // Les paroles : [temps, n° de ligne dans la section] (lignes non vides, à partir de 0),
   // calées sur le morceau avec faster-whisper (horodatage des mots), à ±0,3 s. Pas de karaoké :
-  // pendant qu'une ligne est chantée, chaque ennemi qui tombe libère le mot chanté.
+  // de temps en temps, un ennemi qui tombe pendant qu'une ligne est chantée la libère en entier.
   lyrics: [
     [17.9, 0], [20.4, 1], [23.6, 2], [25.5, 3],
     [31.9, 4], [35.4, 5],

@@ -90,7 +90,7 @@ The character, his clothes, his backpack and his black bass look exactly the sam
 
 ```
 Pixel art sprite sheet for a Metal Slug style run-and-gun arcade game (Neo Geo era, SNK style).
-ONE character only: Baptiste, a man in his forties with SHORT tousled medium-brown hair (no cap, no long hair), a short trimmed salt-and-pepper beard close to the face, a grey and black plaid flannel shirt open over a white band t-shirt with a black print, black jeans, black Converse high-top sneakers; he plays a bright RED electric guitar (Stratocaster shape, white pickguard), carried in front of him on a strap, both hands on it.
+ONE character only: Baptiste, a TALL lean man in his forties (taller and slimmer than an average man), short messy tousled medium-brown hair (no cap, no long hair), a short trimmed salt-and-pepper beard close to the face, a slight confident half smile on one side of his mouth (a smirk), a dark blue and grey PLAID flannel shirt with rolled sleeves, open over a white band t-shirt with a black print, black jeans, black Converse high-top sneakers; he plays a bright RED electric guitar (Stratocaster shape, white pickguard), carried in front of him on a strap, both hands on it.
 
 Strict layout: a uniform grid of 8 columns x 4 rows, every cell the same size, separated by thin dark grey lines. Flat solid magenta background (#FF00FF) in every cell, no gradient, no floor, no cast shadow, no text, no labels, no numbers.
 The character always faces RIGHT (the game mirrors him for the left side), is drawn at the same scale in every frame (about 60% of the cell height when standing), and when he stands on the ground his feet rest on the same baseline near the bottom of the cell. Nothing crosses the cell borders.
@@ -108,7 +108,7 @@ The character, his clothes and his guitar look exactly the same in every frame: 
 
 ```
 Pixel art sprite sheet for a Metal Slug style run-and-gun arcade game (Neo Geo era, SNK style).
-ONE character only: Baptiste, a man in his forties with SHORT tousled medium-brown hair (no cap, no long hair), a short trimmed salt-and-pepper beard close to the face, a grey and black plaid flannel shirt open over a white band t-shirt with a black print, black jeans, black Converse high-top sneakers; he plays a bright RED electric guitar (Stratocaster shape, white pickguard). Same character design, scale and palette as the attached reference sheet.
+ONE character only: Baptiste, a TALL lean man in his forties (taller and slimmer than an average man), short messy tousled medium-brown hair (no cap, no long hair), a short trimmed salt-and-pepper beard close to the face, a slight confident half smile on one side of his mouth (a smirk), a dark blue and grey PLAID flannel shirt with rolled sleeves, open over a white band t-shirt with a black print, black jeans, black Converse high-top sneakers; he plays a bright RED electric guitar (Stratocaster shape, white pickguard). Same character design, scale and palette as the attached reference sheet.
 
 Strict layout: a uniform grid of 6 columns x 4 rows, every cell the same size, separated by thin dark grey lines. Flat solid magenta background (#FF00FF) in every cell, no gradient, no floor, no cast shadow, no text, no labels, no numbers.
 The character always faces RIGHT (the game mirrors him for the left side), is drawn at the same scale in every frame (about 60% of the cell height when standing), and when he stands on the ground his feet rest on the same baseline near the bottom of the cell. Nothing crosses the cell borders.
@@ -133,7 +133,7 @@ The character, his clothes and his guitar look exactly the same in every frame: 
 
 ```
 Pixel art sprite sheet for a Metal Slug style run-and-gun arcade game (Neo Geo era, SNK style).
-ONE character only: Baptiste, a man in his forties with SHORT tousled medium-brown hair (no cap, no long hair), a short trimmed salt-and-pepper beard close to the face, a grey and black plaid flannel shirt open over a white band t-shirt with a black print, black jeans, black Converse high-top sneakers; he plays a bright RED electric guitar (Stratocaster shape, white pickguard). Same character design, scale and palette as the attached reference sheet.
+ONE character only: Baptiste, a TALL lean man in his forties (taller and slimmer than an average man), short messy tousled medium-brown hair (no cap, no long hair), a short trimmed salt-and-pepper beard close to the face, a slight confident half smile on one side of his mouth (a smirk), a dark blue and grey PLAID flannel shirt with rolled sleeves, open over a white band t-shirt with a black print, black jeans, black Converse high-top sneakers; he plays a bright RED electric guitar (Stratocaster shape, white pickguard). Same character design, scale and palette as the attached reference sheet.
 
 Strict layout: a uniform grid of 6 columns x 4 rows, every cell the same size, separated by thin dark grey lines. Flat solid magenta background (#FF00FF) in every cell, no gradient, no floor, no cast shadow, no text, no labels, no numbers.
 The character always faces RIGHT (the game mirrors him for the left side), is drawn at the same scale in every frame (about 60% of the cell height when standing), and when he stands on the ground his feet rest on the same baseline near the bottom of the cell. Nothing crosses the cell borders.

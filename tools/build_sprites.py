@@ -340,9 +340,14 @@ def feet_x(mask, x0, height):
 
 
 
+def height(who):
+    """La hauteur debout d'un perso en jeu : la commune, ou la sienne (un grand gaillard)."""
+    return LAYOUT.get('hauteurs', {}).get(who, LAYOUT['hauteur'])
+
+
 def read_perso(src_dir, who, ctl_dir, warn):
     """Les planches générées d'un perso → {nom: anim}, hauteur de sortie."""
-    out_h = LAYOUT['hauteur']
+    out_h = height(who)
     found = {k: src_dir / f'{who}-{k}.png' for k in LAYOUT['planches']}
     found = {k: p for k, p in found.items() if p.exists()}
     if not found:
@@ -710,7 +715,7 @@ def main(src_dir, dest):
         every = [a[3] for p in LAYOUT['planches'].values() for a in p['anims']]
         meta[who] = {
             'source': 'planches' if new else 'ancienne',
-            'hauteur': LAYOUT['hauteur'] if 'idle' in new else round(old_h),
+            'hauteur': height(who) if 'idle' in new else round(old_h),
             'manque': [n for n in every if n not in new],
         }
         meta[who]['hanches'] = round(meta[who]['hauteur'] * LAYOUT['hanches'])

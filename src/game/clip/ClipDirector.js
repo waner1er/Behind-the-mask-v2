@@ -3,7 +3,7 @@ import { HERO_WALK, DEPTH } from '../../config/combat.js';
 import { WEAPONS } from '../../config/weapons.js';
 import { GameSession } from '../session/GameSession.js';
 import { HeroPilot } from './HeroPilot.js';
-import { Shatter, WALL_FOOT } from './Shatter.js';
+import { Shatter } from './Shatter.js';
 
 const HP_FLOOR = 40;        // les héros du clip ne tombent jamais
 const ENEMY_HP = 0.6;       // les ennemis du clip encaissent moins, pour tenir le tempo
@@ -11,10 +11,10 @@ const LATE_HP = 0.3;        // et encore moins s'ils entrent quand le clip est e
 const MIX = ['L', 'P', 'R'];
 const MIX_EVERY = 4;        // s, 'mix' : l'arme change toutes les 4 s
 const INTENSITY = [20, 105]; // la frénésie des héros monte de 0 à 1 entre ces deux heures
-const WORD_LIFE = 1.8;      // s, un mot libéré monte et s'efface
+const PHRASE_LIFE = 2.6;    // s, une phrase libérée monte et s'efface
+const PHRASE_EVERY = 6;     // s au moins entre deux phrases
 const TV_KEEP = 0.62;       // la grosse TV reste à 62 % de l'écran tant que l'invité n'est pas sorti
-const SCREEN = 0.72;        // le milieu de son écran, en part de sa hauteur (depuis le pied)
-const BIG_TV_H = 202;       // sa hauteur dans l'atlas des TV
+const SHOP_TV_H = 44;       // la grosse TV dans la vitrine (shop_tv de l'atlas des TV)
 const SHARDS = Array.from({ length: 12 }, (_, k) => `shard${k + 1}`);
 
 // la ligne de `table` en cours à l'heure t (tables triées par heure)
@@ -25,20 +25,21 @@ const at = (table, t) => table.findLast((row) => row[0] <= t);
 // vers pace.bossDown : en avance, les héros attendent (ou le vaisseau se blinde) ; en retard,
 // ils foncent, les ennemis qui entrent ont moins de vie et le vaisseau encaisse plus. Seuls les
 // vrais tirs des héros font des dégâts. Et ça monte : renforts de plus en plus serrés, armes de plus en plus grosses
-// (config/clip.js), jusqu'au chaos sous le boss. Des petites TV cathodiques bordent la rue
-// (tvs) ; vers 1:00, une grosse TV sur un échafaudage entre dans le champ (bigTv) et retient la
-// caméra ; à guest.at, son écran éclate (shatter) et l'invité en sort. Ensuite il couvre les
-// arrières de Pete, et aux
+// (config/clip.js), jusqu'au chaos sous le boss. Les vitrines du vidéoclub (windows) sont
+// pleines de TV cathodiques ; dans l'une, vers 1:00, une grosse TV retient la caméra ; à
+// guest.at, son écran éclate (shatter) et l'invité en sort. Ensuite il couvre les arrières de
+// Pete, et aux
 // heures de duo ils se tournent l'un vers l'autre, micro levé. Le Manager ne dit rien : ses
 // répliques sont celles de Walk Straight.
 // update(t, dt) : t = l'heure du morceau.
 export class ClipDirector {
-  // lyrics : les paroles du morceau (Lyrics), libérées mot à mot par les ennemis qui tombent
+  // lyrics : les paroles du morceau (Lyrics), qu'une partie des ennemis qui tombent libèrent
   constructor({ level, heroId, clip, start, lyrics = null }) {
     this.clip = clip;
     this.lyrics = lyrics;
-    this.released = new Map();                   // ligne → n° des mots déjà libérés
-    this.words = [];                             // { text, x, y, t } : les mots en l'air
+    this.released = new Set();                   // les lignes déjà sorties
+    this.phrases = [];                           // { text, x, y, t } : les phrases en l'air
+    this.lastPhrase = -Infinity;
     this.dead = new WeakSet();
     this.session = new GameSession({ level, players: [{ heroId }], intro: [{ text: level.mission, sub: level.name, time: 2.6 }] });
     this.world = this.session.world;
@@ -52,10 +53,17 @@ export class ClipDirector {
     this.armor = 1;                              // sous le boss : la part des dégâts que prend le vaisseau
     this.guest = null;
     this.shatter = null;
-    this.bigTv = null;                           // { x, broken }
-    const { from, every } = clip.tvs;
-    this.tvs = [];                               // { x, k } : les petites TV, variante k (1 à 5)
-    for (let x = from, k = 0; x < this.bossX - 200; x += every, k++) this.tvs.push({ x, k: (k % 5) + 1 });
+    // les vitrines, en x du niveau : là où chaque tronçon du décor montre celle de l'image
+    const shop = clip.tvs.shop;
+    this.windows = [];                           // { x, y, w, h } (x : le bord gauche)
+    let x0 = 0;
+    for (const [from, w] of level.decor.segments) {
+      if (shop.x >= from && shop.x + shop.w <= from + w) this.windows.push({ ...shop, x: x0 + shop.x - from });
+      x0 += w;
+    }
+    const big = this.windows[clip.bigTv.window];
+    // la grosse TV, posée au bas de sa vitrine : { x (milieu), y (pied), broken }
+    this.bigTv = big ? { x: big.x + big.w / 2, y: big.y + big.h, broken: false, window: big } : null;
   }
 
   get heroes() { return this.world.heroes; }
@@ -69,11 +77,13 @@ export class ClipDirector {
   update(t, dt) {
     const world = this.world;
     const { guest } = this.clip;
-    if (!this.bigTv && t >= this.clip.bigTv.at) this.#bringTv();
     this.#holdOnTv();
-    if (!this.shatter && this.bigTv && t >= guest.at - guest.breach) this.#breakScreen();
+    // l'écran éclate à l'heure si la TV est à l'écran (sinon dès qu'elle y arrive), l'invité sort
+    // `breach` s après ; sans TV du tout, il tombe du ciel
+    const tvOnScreen = this.bigTv && this.bigTv.x < world.cam + W - 50;
+    if (!this.shatter && tvOnScreen && t >= guest.at - guest.breach) { this.#breakScreen(); this.brokeAt = t; }
     this.shatter?.update(dt);
-    if (!this.guest && t >= guest.at) this.#guestJoins();
+    if (!this.guest && (this.shatter ? t >= this.brokeAt + guest.breach : t >= guest.at + 5)) this.#guestJoins();
     if (world.boss && !world.boss.armored) this.#armorBoss(world.boss);
     const ahead = world.cam - this.#plannedCam(t);
     const [i0, i1] = INTENSITY, intensity = Math.max(0, Math.min(1, (t - i0) / (i1 - i0)));
@@ -87,7 +97,7 @@ export class ClipDirector {
     this.#reinforce(t, dt);
     this.session.update(dt, inputs);
     this.#tameEnemies();
-    this.#words(t, dt);
+    this.#phrases(t, dt);
     this.#arm(t);
     this.heroes.forEach((h) => { if (h.alive()) h.hp = Math.max(h.hp, HP_FLOOR); });
     if (world.boss) {
@@ -95,13 +105,6 @@ export class ClipDirector {
       this.#paceBoss(t);
       if (this.session.state === 'clear' && !this.wiped) this.#wipe();
     }
-  }
-
-  // La grosse TV : posée juste hors champ à droite, au pied du mur ; la rue l'amène à l'écran.
-  #bringTv() {
-    const x = Math.min(this.world.cam + W + 90, this.session.levelObj.width - 100);
-    this.bigTv = { x, broken: false };
-    this.tvs = this.tvs.filter((tv) => Math.abs(tv.x - x) > 120);
   }
 
   // Tant que l'invité n'est pas sorti, la caméra ne dépasse pas la grosse TV (elle reste vers la
@@ -118,7 +121,7 @@ export class ClipDirector {
   // L'écran éclate : flash (la scène), secousse, verre qui vole, le souffle balaie les ennemis
   // tout près.
   #breakScreen() {
-    const world = this.world, tv = this.bigTv, y = WALL_FOOT - BIG_TV_H * SCREEN;
+    const world = this.world, tv = this.bigTv, y = tv.y - SHOP_TV_H * 0.55;
     tv.broken = true;
     this.shatter = new Shatter(tv.x, y, SHARDS);
     world.explode(tv.x, y + 10, 'hero', world.hero, DEPTH.min);
@@ -132,7 +135,8 @@ export class ClipDirector {
     this.session.join(1, def.id, def);
     const g = this.guest = this.session.players[1].hero;
     g.bombs = 10;
-    if (tv) Object.assign(g, { x: tv.x, y: WALL_FOOT - DEPTH.min - BIG_TV_H * SCREEN + 30, z: DEPTH.min, air: true, vy: -160, facing: -1 });
+    // ses pieds au bas de l'écran ; y est compté sans la profondeur (z), qui le place au fond
+    if (tv) Object.assign(g, { x: tv.x, y: tv.y - DEPTH.min, z: DEPTH.min, air: true, vy: -170, facing: -1 });
     this.pilots.push(new HeroPilot(g, { lane: -14, follow: world.hero, side: 1, rear: true }));
   }
 
@@ -155,25 +159,22 @@ export class ClipDirector {
     }
   }
 
-  // Un ennemi qui tombe pendant qu'une ligne est chantée libère le mot chanté (ou le premier
-  // de la ligne pas encore libéré) : il sort de son corps et monte en s'effaçant.
-  #words(t, dt) {
+  // De temps en temps (pas plus d'une fois toutes les PHRASE_EVERY s), un ennemi qui tombe
+  // pendant qu'une ligne est chantée la libère en entier : elle sort de son corps et monte en
+  // s'effaçant. Chaque ligne ne sort qu'une fois.
+  #phrases(t, dt) {
     for (const e of this.world.enemies) {
       if (e.alive() || this.dead.has(e)) continue;
       this.dead.add(e);
       const cur = this.lyrics?.at(t);
-      if (!cur) continue;
-      const done = this.released.get(cur.cue) ?? new Set();
-      this.released.set(cur.cue, done);
-      let k = 0;
-      while (k <= cur.word + 1 && done.has(k)) k++;
-      if (k > cur.word + 1 || k >= cur.cue.words.length) continue;
-      done.add(k);
+      if (!cur || this.released.has(cur.cue) || t - this.lastPhrase < PHRASE_EVERY) continue;
+      this.released.add(cur.cue);
+      this.lastPhrase = t;
       const h = e.p.hauteur * e.scale;
-      this.words.push({ text: cur.cue.words[k].toUpperCase(), x: e.x, y: e.y + e.z - h * 0.75, t: 0 });
+      this.phrases.push({ text: cur.cue.words.join(' ').toUpperCase(), x: e.x, y: e.y + e.z - h * 0.8, t: 0 });
     }
-    for (const w of this.words) { w.t += dt; w.y -= 28 * dt; }
-    this.words = this.words.filter((w) => w.t < WORD_LIFE);
+    for (const w of this.phrases) { w.t += dt; w.y -= 18 * dt; }
+    this.phrases = this.phrases.filter((w) => w.t < PHRASE_LIFE);
   }
 
   // les ennemis du clip : moins de PV (encore moins quand le clip est en retard)

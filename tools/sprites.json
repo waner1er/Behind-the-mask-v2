@@ -3,9 +3,14 @@
   "persos": ["arnaud", "baptiste", "erwan", "pierre"],
   "hauteur": 72,
   "hanches": 0.42,
+  "hauteurs": {
+    "_doc": "Hauteur debout en jeu d'un perso plus grand (ou plus petit) que les autres (hauteur).",
+    "baptiste": 78
+  },
   "echelles": {
     "_doc": "Échelle en plus pour une planche dont le perso est dessiné plus petit (ou plus grand) que sur ses déplacements : {perso}-{planche}.",
     "arnaud-tir": 0.92,
+    "baptiste-tir": 1.1,
     "arnaud-actions": 0.9,
     "pierre-actions": 0.9
   },

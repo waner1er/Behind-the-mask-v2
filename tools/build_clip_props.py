@@ -5,7 +5,8 @@ Planche générée dans Figma (prompt : ressources/prompts/clip.md) : 5 petites 
 haut, la grosse TV sur son échafaudage (intacte, puis écran brisé) en bas, des éclats de verre à
 droite. Chaque objet est isolé sur le fond magenta, réduit à l'échelle des persos et ancré au
 milieu de son pied → public/assets/clip/props.png et props.atlas.json (frames tv1…tv5,
-bigtv, bigtv_broken, shard1…). Dépendances : numpy, scipy, pillow.
+bigtv, bigtv_broken, shard1…). La grosse TV existe aussi sans son échafaudage, à la largeur de
+la vitrine du vidéoclub du décor (shop_tv, shop_tv_broken). Dépendances : numpy, scipy, pillow.
 """
 import json
 from pathlib import Path
@@ -22,6 +23,8 @@ DEST = ROOT / 'public/assets/clip'
 # réduction par sorte d'objet (la planche ne tient pas l'échelle demandée) : les petites TV font
 # à peu près une tête de perso, la grosse TV et son échafaudage la hauteur de la façade
 SCALE = {'tv': 0.22, 'bigtv': 0.29, 'shard': 0.3}
+SCAFFOLD = 0.58       # l'échafaudage : la part basse de la grosse TV intacte
+SHOP_W = 84           # la grosse TV seule, à la largeur de la vitrine (88 px)
 
 
 def main():
@@ -45,6 +48,18 @@ def main():
     named += [(f'shard{k + 1}', o) for k, o in enumerate(shards)]
     kind = lambda name: name.rstrip('0123456789').replace('_broken', '')
     imgs = [(name, shrink(src, o['box'], o['mask'], SCALE[kind(name)])) for name, o in named]
+    # la grosse TV seule : on coupe l'échafaudage (la même hauteur sous les deux, mesurée sur
+    # l'intacte : l'écran brisé a de la fumée au-dessus)
+    cut = round((big[0]['box'][3] - big[0]['box'][1]) * SCAFFOLD)
+    for name, o in zip(['shop_tv', 'shop_tv_broken'], big):
+        x0, y0, x1, y1 = o['box']
+        mask = o['mask'][:y1 - cut - y0]
+        rows, cols = mask.any(axis=1), mask.any(axis=0)
+        ya, yb = np.nonzero(rows)[0][[0, -1]]
+        xa, xb = np.nonzero(cols)[0][[0, -1]]
+        box = (x0 + xa, y0 + ya, x0 + xb + 1, y0 + yb + 1)
+        sub = mask[ya:yb + 1, xa:xb + 1]
+        imgs.append((name, shrink(src, box, sub, SHOP_W / (big[0]['box'][2] - big[0]['box'][0]))))
     # une étagère par image, côte à côte
     width = 1024
     x = y = rowh = 0

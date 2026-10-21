@@ -97,7 +97,8 @@ export class ClipScene extends Phaser.Scene {
 
   // l'invité arrive : son nom glisse depuis la droite, clignote un peu, puis s'en va
   #guest(t) {
-    const age = t - CLIP.guest.at, on = age >= 0 && age < GUEST_TIME;
+    // l'heure où il est vraiment sorti (ClipGameScene la note dans clip.guestAt)
+    const age = t - (this.clip.guestAt ?? Infinity), on = age >= 0 && age < GUEST_TIME;
     this.guest.forEach((g, i) => {
       g.setVisible(on && (age > 0.8 || Math.floor(age * 8) % 2 === 0));
       const slide = Math.max(0, 1 - age / 0.35) * this.scale.width;

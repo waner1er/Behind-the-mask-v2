@@ -2,8 +2,8 @@ import { GROUND } from '../../config/screen.js';
 import { DEPTH } from '../../config/combat.js';
 
 const GRAVITY = 640;
-// le pied du mur : le fond du trottoir (la file la plus au fond), où sont posées les TV
-export const WALL_FOOT = GROUND + DEPTH.min;
+// le pied du mur : le fond du trottoir (la file la plus au fond)
+const WALL_FOOT = GROUND + DEPTH.min;
 
 // Un écran qui éclate (l'arrivée de l'invité du clip) : des éclats de verre partent du point
 // (x, y), volent vers l'avant, rebondissent et se couchent sur le trottoir. Sans rendu :
