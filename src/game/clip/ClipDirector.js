@@ -57,9 +57,10 @@ export class ClipDirector {
     this.heroes.forEach((h) => (h.speed = HERO_WALK * (ahead < -150 ? 1.6 : 1)));
     const inputs = [];
     this.pilots.forEach((p) => (inputs[p.hero.slot] = p.next(dt, world, orders)));
+    // les renforts entrent avant l'image : World.resolve leur donne une pose avant le dessin
+    this.#reinforce(t, dt);
     this.session.update(dt, inputs);
     this.#tameEnemies();
-    this.#reinforce(t, dt);
     this.#arm(t);
     this.heroes.forEach((h) => { if (h.alive()) h.hp = Math.max(h.hp, HP_FLOOR); });
     this.assistT -= dt;
