@@ -350,7 +350,9 @@ def read_perso(src_dir, who, ctl_dir, warn):
     sliced = {}
     for k, p in found.items():
         spec = LAYOUT['planches'][k]
-        sliced[k] = slice_sheet(p, spec['colonnes'], spec['rangees'])
+        # un perso dessiné au même endroit dans les 4 rangées remplit certaines colonnes à plus de
+        # 60 % : au seuil par défaut, elles seraient prises pour des traits de grille et gommées
+        sliced[k] = slice_sheet(p, spec['colonnes'], spec['rangees'], ENEMY_LINE)
     # hauteur debout de référence : l'idle des déplacements, sinon les anims « au sol » de la planche
     def med_height(k, names):
         _, cells, _ = sliced[k]

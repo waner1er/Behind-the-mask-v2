@@ -1,8 +1,9 @@
 import { W } from '../../config/screen.js';
-import { HERO_WALK } from '../../config/combat.js';
+import { HERO_WALK, DEPTH } from '../../config/combat.js';
 import { WEAPONS } from '../../config/weapons.js';
 import { GameSession } from '../session/GameSession.js';
 import { HeroPilot } from './HeroPilot.js';
+import { WallBreach, WALL_FOOT } from './WallBreach.js';
 
 const HP_FLOOR = 40;        // les héros du clip ne tombent jamais
 const ENEMY_HP = 0.6;       // les ennemis du clip encaissent moins, pour tenir le tempo
@@ -19,8 +20,10 @@ const at = (table, t) => table.findLast((row) => row[0] <= t);
 // vers pace.bossDown : en avance, les héros attendent (ou le vaisseau se blinde) ; en retard,
 // ils foncent, et les ennemis à l'écran prennent des coups en plus, comme si les tirs portaient
 // mieux. Et ça monte : renforts de plus en plus serrés, armes de plus en plus grosses
-// (config/clip.js), jusqu'au chaos sous le boss. L'invité entre à guest.at. Le Manager ne dit
-// rien : ses répliques sont celles de Walk Straight.
+// (config/clip.js), jusqu'au chaos sous le boss. L'invité arrive à guest.at par un mur qui
+// explose devant Pete (breach, que la scène dessine) ; ensuite il couvre ses arrières, et aux
+// heures de duo ils se tournent l'un vers l'autre, micro levé. Le Manager ne dit rien : ses
+// répliques sont celles de Walk Straight.
 // update(t, dt) : t = l'heure du morceau.
 export class ClipDirector {
   constructor({ level, heroId, clip, start }) {
@@ -37,6 +40,7 @@ export class ClipDirector {
     this.fightStart = null;
     this.armor = 1;                              // sous le boss : la part des dégâts que prend le vaisseau
     this.guest = null;
+    this.breach = null;
   }
 
   get heroes() { return this.world.heroes; }
@@ -49,7 +53,10 @@ export class ClipDirector {
 
   update(t, dt) {
     const world = this.world;
-    if (!this.guest && t >= this.clip.guest.at) this.#guestJoins();
+    const { guest } = this.clip;
+    if (!this.breach && t >= guest.at - guest.breach) this.#blowWall();
+    this.breach?.update(dt);
+    if (!this.guest && t >= guest.at) this.#guestJoins();
     if (world.boss && !world.boss.armored) this.#armorBoss(world.boss);
     const ahead = world.cam - this.#plannedCam(t);
     const [i0, i1] = INTENSITY, intensity = Math.max(0, Math.min(1, (t - i0) / (i1 - i0)));
@@ -57,6 +64,7 @@ export class ClipDirector {
     this.heroes.forEach((h) => (h.speed = HERO_WALK * (ahead < -150 ? 1.6 : 1)));
     const inputs = [];
     this.pilots.forEach((p) => (inputs[p.hero.slot] = p.next(dt, world, orders)));
+    this.#duo(t, inputs);
     // les renforts entrent avant l'image : World.resolve leur donne une pose avant le dessin
     this.#reinforce(t, dt);
     this.session.update(dt, inputs);
@@ -71,12 +79,45 @@ export class ClipDirector {
     } else if (ahead < -120 && this.assistT <= 0) this.#assist();
   }
 
+  // Le mur explose devant Pete : le souffle balaie les ennemis tout près, l'écran tremble.
+  #blowWall() {
+    const world = this.world, x = Math.min(world.cam + W * 0.74, this.session.levelObj.width - 80);
+    this.breach = new WallBreach(x);
+    world.explode(x, WALL_FOOT - 20, 'hero', world.hero, DEPTH.min);
+    world.explode(x - 16, WALL_FOOT - 52, 'none', null, DEPTH.min);
+    world.explode(x + 16, WALL_FOOT - 40, 'none', null, DEPTH.min);
+    for (let i = 0; i < 8; i++) world.fx('dust', x + (i - 3.5) * 9, WALL_FOOT - 4, 0, { vx: (i - 3.5) * 12, vy: -20 });
+    world.shake = 1;
+  }
+
+  // Guillaume sort du trou d'un bond, au fond du trottoir, puis rejoint Pete.
   #guestJoins() {
-    const { def } = this.clip.guest;
+    const { def } = this.clip.guest, world = this.world, b = this.breach;
     this.session.join(1, def.id, def);
-    this.guest = this.session.players[1].hero;
-    this.guest.bombs = 10;
-    this.pilots.push(new HeroPilot(this.guest, { lane: -14, follow: this.world.hero, side: 1 }));
+    const g = this.guest = this.session.players[1].hero;
+    g.bombs = 10;
+    if (b) Object.assign(g, { x: b.x, y: WALL_FOOT - DEPTH.min - 6, z: DEPTH.min, air: true, vy: -230, facing: -1 });
+    world.fx('dust', g.x, WALL_FOOT, 0, { vy: -30 });
+    this.pilots.push(new HeroPilot(g, { lane: -14, follow: world.hero, side: 1, rear: true }));
+  }
+
+  // Les moments en duo : Pete et Guillaume se tournent l'un vers l'autre et lèvent le micro,
+  // des notes s'envolent ; au premier, Guillaume lance à Pete l'arme qu'il apporte.
+  #duo(t, inputs) {
+    const duo = this.clip.duo, a = this.world.hero, b = this.guest;
+    if (!b || !a.alive()) return;
+    const k = duo.at.findIndex((d) => t >= d && t < d + duo.time);
+    if (k < 0) { this.duoK = -1; return; }
+    if (this.duoK !== k) {
+      this.duoK = k;
+      a.facing = Math.sign(b.x - a.x) || 1;
+      b.facing = -a.facing;
+      if (k === 0) this.world.dropPickup(duo.gift, a.x - 6, a.y - 70);
+    }
+    for (const h of [a, b]) {
+      inputs[h.slot] = { inp: { win: true }, press: {} };
+      if (Math.random() < 0.15) this.world.fx('notes', h.x + (Math.random() - 0.5) * 20, h.y - 80, h.z, { vy: -40 });
+    }
   }
 
   // les ennemis du clip : moins de PV
@@ -130,9 +171,14 @@ export class ClipDirector {
     this.assistT = ASSIST_EVERY;
   }
 
-  // le boss à terre : tous les ennemis encore debout sautent avec lui
+  // le boss à terre : tous les ennemis encore debout sautent avec lui, et les deux chanteurs se
+  // tournent l'un vers l'autre pour la victoire
   #wipe() {
     this.wiped = true;
+    if (this.guest) {
+      this.world.hero.facing = Math.sign(this.guest.x - this.world.hero.x) || 1;
+      this.guest.facing = -this.world.hero.facing;
+    }
     for (const e of this.world.enemies) {
       if (!e.alive()) continue;
       this.world.explode(e.x, e.y, 'none', null, e.z);

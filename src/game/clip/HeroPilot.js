@@ -2,6 +2,7 @@ import { W } from '../../config/screen.js';
 
 const REACH = 220;         // au-delà, il marche vers l'ennemi en tirant
 const LANE_OK = 6;         // écart de profondeur toléré avant de changer de file
+const RIGHT = 0.6;         // il ne va pas plus loin que 60 % de l'écran (la caméra le suit)
 
 // Le joueur automatique du clip : ce qu'il ferait avec une manette ({ inp, press }), comme
 // l'Autopilot de la démo, mais face à la partie. Il avance en tirant par rafales, se met sur
@@ -10,11 +11,13 @@ const LANE_OK = 6;         // écart de profondeur toléré avant de changer de 
 // (intensity, de 0 à 1) monte, plus il tire, saute et lance.
 //   lane   : sa file de prédilection quand rien ne se passe
 //   follow : le héros qu'il suit (l'invité suit le joueur 1, un peu en retrait)
+//   rear   : il vise d'abord les ennemis derrière celui qu'il suit (il couvre ses arrières)
 export class HeroPilot {
-  constructor(hero, { lane = 0, follow = null, side = -1 } = {}) {
+  constructor(hero, { lane = 0, follow = null, side = -1, rear = false } = {}) {
     this.hero = hero;
     this.lane = lane;
     this.follow = follow;
+    this.rear = rear;
     this.side = side;              // sous le boss : à gauche (-1) ou à droite (1) de sa cible
     this.t = 0;
     this.jumpT = 2 + Math.random() * 2;
@@ -35,6 +38,8 @@ export class HeroPilot {
       const foe = this.#nearestFoe(world);
       if (foe && !(push && foe.x < h.x - 30)) this.#fight(foe, inp, press, push);
       else this.#walk(world, hold, inp);
+      // pas plus loin que RIGHT : au-delà, il s'arrête et se tourne vers la droite
+      if (inp.x > 0 && !inp.lock && h.x > world.cam + W * RIGHT) inp.lock = true;
     }
     // de temps en temps, un saut, pour la frime (et passer les ondes du mégaphone)
     if (this.jumpT <= 0 && !h.air) {
@@ -46,10 +51,12 @@ export class HeroPilot {
 
   #nearestFoe(world) {
     const h = this.hero, x0 = world.cam - 10, x1 = world.cam + W + 10;
+    const behind = (e) => this.rear && this.follow && e.x < this.follow.x;
     let best = null;
     for (const e of world.enemies) {
       if (!e.alive() || e.x < x0 || e.x > x1) continue;
-      if (!best || Math.abs(e.x - h.x) < Math.abs(best.x - h.x)) best = e;
+      if (best && behind(best) && !behind(e)) continue;
+      if (!best || (behind(e) && !behind(best)) || Math.abs(e.x - h.x) < Math.abs(best.x - h.x)) best = e;
     }
     return best;
   }

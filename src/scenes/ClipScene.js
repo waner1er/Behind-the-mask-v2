@@ -3,19 +3,22 @@ import { SCENES } from './keys.js';
 import { MUSIC } from './BootScene.js';
 import { CLIP } from '../config/clip.js';
 import { COLORS, FONT, TEXT_8 } from '../config/theme.js';
-import { Lyrics } from '../game/clip/Lyrics.js';
 import { ScriptedPad } from '../input/ScriptedPad.js';
 import { addPersos } from '../data/sprites.js';
 
-const BAND = 30;                       // la bande des paroles, en bas de l'écran
-const LYRIC = { fontFamily: FONT, fontSize: '10px', color: '#ffffff' };
 const CAPTION = [0.6, 4.8];            // le titre du morceau, sur l'écran de garde
 const GUEST_TIME = 4;                  // le bandeau de l'invité reste 4 s
 
+// le titre du morceau : l'en-tête de sa section dans paroles.md (« ## 02. Metal Slug (feat. …) »)
+function songTitle(markdown, section) {
+  const line = markdown.split('\n').find((l) => l.startsWith(`## ${section}`)) ?? '';
+  return line.replace(/^##\s*\d+\.\s*/, '').trim();
+}
+
 // Le clip de démo sur « Metal Slug » : il tient le morceau et l'horloge (clip.clock, l'heure
 // du morceau), enchaîne l'écran de garde, la sélection et le niveau (config/clip.js) avec une
-// manette qui joue seule, et affiche par-dessus les paroles en karaoké, le titre du morceau,
-// l'arrivée de l'invité et le fondu final. Elle est la dernière scène du jeu : elle se dessine
+// manette qui joue seule, et affiche par-dessus le titre du morceau, l'arrivée de l'invité et
+// le fondu final. Elle est la dernière scène du jeu : elle se dessine
 // au-dessus des autres.
 // exporting : pas de son, l'heure avance au pas du jeu (l'export vidéo pilote les images).
 // Le jeu émet 'clip-done' à la fin du morceau.
@@ -35,7 +38,6 @@ export class ClipScene extends Phaser.Scene {
   create() {
     const { width: W, height: H } = this.scale;
     addPersos(this.cache.json.get('guest-index'));
-    this.lyrics = new Lyrics(this.cache.text.get('paroles'), CLIP.section, CLIP.lyrics);
     const clock = { t: 0 };
     this.clock = clock;
     this.clip = { cfg: CLIP, clock, pads: [new ScriptedPad(CLIP.pads, () => clock.t)], next: SCENES.clipGame };
@@ -49,10 +51,7 @@ export class ClipScene extends Phaser.Scene {
   }
 
   #overlay(W, H) {
-    this.band = this.add.rectangle(0, H - BAND, W, BAND, 0x000000, 0.6).setOrigin(0);
-    this.line = this.add.text(W / 2, H - BAND / 2, '', LYRIC).setOrigin(0.5).setStroke('#000000', 4);
-    this.sung = this.add.text(W / 2, H - BAND / 2, '', { ...LYRIC, color: COLORS.accent }).setOrigin(0.5).setStroke('#3a1a00', 4);
-    const title = this.lyrics.title.toUpperCase();
+    const title = songTitle(this.cache.text.get('paroles'), CLIP.section).toUpperCase();
     const [name, feat] = title.split(/\s*\((.*)\)/);
     this.caption = [
       this.add.text(10, 10, 'VIGILANTE', { ...TEXT_8, color: COLORS.muted }),
@@ -71,7 +70,6 @@ export class ClipScene extends Phaser.Scene {
     if (!this.exporting && this.music.isPlaying) this.clock.t = this.music.seek;
     else this.clock.t += delta / 1000;
     const t = this.clock.t;
-    this.#lyrics(t);
     this.#caption(t);
     this.#guest(t);
     const fadeFrom = CLIP.duration - CLIP.fadeOut;
@@ -80,22 +78,6 @@ export class ClipScene extends Phaser.Scene {
       this.done = true;
       this.game.events.emit('clip-done');
     }
-  }
-
-  // la ligne en cours, surlignée à mesure qu'elle est chantée ; elle apparaît et s'efface en fondu
-  #lyrics(t) {
-    const cur = this.lyrics.at(t);
-    const show = !!cur;
-    this.band.setVisible(show);
-    this.line.setVisible(show);
-    this.sung.setVisible(show);
-    if (!show) return;
-    const text = cur.text.toUpperCase();
-    if (this.line.text !== text) { this.line.setText(text); this.sung.setText(text); }
-    const alpha = Math.min(1, cur.age / 0.15, cur.left / 0.3);
-    this.band.setAlpha(alpha);
-    this.line.setAlpha(alpha);
-    this.sung.setAlpha(alpha).setCrop(0, 0, this.sung.width * cur.progress, this.sung.height);
   }
 
   #caption(t) {
