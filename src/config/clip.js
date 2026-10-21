@@ -11,12 +11,12 @@ export const CLIP = {
     [6.6, 'right'], [7.2, 'right'], [7.8, 'right'], [8.6, 'left'], [9.2, 'left'], [9.8, 'left'],
     [10.6, 'fire'],
   ],
-  // l'invité, en joueur 2, quand il se met à chanter (1:09) : l'écran de la grosse TV éclate
-  // (breach s avant), et il en sort d'un bond. Son atlas à part (tools/build_guest.py) :
-  // tee-shirt noir, micro à la main.
+  // l'invité, en joueur 2 : il est déjà sorti quand il se met à chanter (69,5 s). L'écran de
+  // la grosse TV éclate à `at` - `breach`, il en sort d'un bond à `at`. Son atlas à part
+  // (tools/build_guest.py) : tee-shirt noir, micro à la main.
   guest: {
-    at: 69.5,
-    breach: 0.7,
+    at: 69.1,
+    breach: 0.5,
     def: { id: 'guillaume', atlas: 'guest-guillaume', name: 'GUILLAUME', color: '#4de3ff' },
     files: 'assets/sprites/guest/guillaume',      // .png, .json, .atlas.json
     band: 'CIRCLES',
@@ -32,14 +32,16 @@ export const CLIP = {
   // micro (duo s) ; à son arrivée, Guillaume lance à Pete l'arme qu'il apporte (gift).
   duo: { at: [70.4, 80.8, 91.8], time: 1.3, gift: 'R' },
   // l'allure : la caméra atteint l'arène du boss vers `bossAt`, le Manager tombe vers `bossDown`
-  pace: { bossAt: 86, bossDown: 110 },
+  pace: { bossAt: 95, bossDown: 112 },
   // La montée en chaos : de plus en plus d'ennemis en renfort, et des armes de plus en plus
   // fournies, jusqu'au chaos du boss.
   //   reinforce : [heure, un renfort toutes les n s, au plus m ennemis debout]
   //   weapons   : [heure, arme] (munitions toujours rechargées ; 'mix' = L, P et R à tour de rôle)
-  reinforce: [[24, 6, 3], [40, 3.5, 5], [60, 2.2, 7], [75, 1.4, 9], [93, 1.1, 10], [108, 0.7, 14]],
+  reinforce: [[14, 4, 3], [30, 3, 5], [50, 2.2, 6], [66, 1.6, 8], [80, 1.3, 9], [93, 1.1, 10], [108, 0.7, 14]],
   weapons: [[0, 'pick'], [30, 'L'], [52, 'P'], [70, 'R'], [93, 'mix']],
-  enemyTypes: ['skinhead', 'skinhead', 'crs'],
+  // tous les méchants de l'atlas, à tour de rôle (le colosse, plus rare)
+  enemyTypes: ['skinhead', 'masculiniste', 'crs', 'affairiste', 'zombie', 'ninja', 'mutant',
+    'cyberflic', 'hommetv', 'skinhead', 'masculiniste', 'affairiste', 'colosse'],
   fadeOut: 2,                         // fondu au noir sur la fin du morceau
   // Les paroles : [temps, n° de ligne dans la section] (lignes non vides, à partir de 0),
   // calées sur le morceau avec faster-whisper (horodatage des mots), à ±0,3 s. Pas de karaoké :

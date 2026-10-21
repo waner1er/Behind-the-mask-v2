@@ -240,7 +240,20 @@ export class World {
       e.scored = true;
       this.events.push({ type: 'kill', by: e.lastHitBy, score: e.cfg.score, enemy: e });
       this.play('hit');
+      if (e.cfg.freed) this.#freeEnemy(e);
     }
+  }
+
+  // Un ennemi envoûté (le zombie du téléphone) redevient un habitant : un éclair, son corps
+  // disparaît, et l'habitant libéré s'enfuit en courant hors de l'écran.
+  #freeEnemy(e) {
+    const y = Math.round(e.y + e.z);
+    this.effects.add('flash', e.x, y - 36);
+    this.effects.add('dust', e.x, y - 4);
+    e.deadT = 99; e.fade = 0;
+    const h = new Hostage({ x: e.x, y, gift: null });
+    Object.assign(h, { state: 'run', t: 0, gave: true });
+    this.hostages.push(h);
   }
 
   // Ce que l'acteur vient de faire à cette image : tirer, lancer, frapper, atterrir, marcher.
@@ -253,7 +266,14 @@ export class World {
       const high = a.dir === 'up' ? [0, -430] : a.dir === 'diagup' ? [a.facing * 110, -400] : null;
       const [vx, vy] = high ?? [a.facing * 150, a.spawn === 'throw' ? -170 : -120];
       if (a.side === 'hero') this.shots.push({ kind: 'vinyl', fx: 'vinyl', side: a.side, owner: a, x: mx, y: my, z: a.z, vx, vy, t: 0 });
-      else this.shots.push({ kind: 'grenade', fx: 'grenade', side: a.side, x: mx, y: my, z: a.z, vx: a.facing * 175, vy: -180, t: 0 });
+      else {
+        // le projectile du méchant (sa fiche : throwFx), en éventail s'il en lance plusieurs
+        const fx = a.cfg?.throwFx ?? 'grenade', n = a.cfg?.throwFan ?? 1;
+        for (let k = 0; k < n; k++) {
+          const spread = n > 1 ? (k / (n - 1) - 0.5) * 70 : 0;
+          this.shots.push({ kind: 'grenade', fx, side: a.side, x: mx, y: my, z: a.z, vx: a.facing * (175 + spread), vy: -180 - spread, t: 0 });
+        }
+      }
       this.play('throw');
     }
     if (MELEES.includes(a.spawn)) this.#melee(a, P);

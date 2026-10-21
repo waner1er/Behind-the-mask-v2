@@ -303,6 +303,18 @@ Style: crisp pixel art, Metal Slug style, bold readable shapes, limited palette,
 
 ---
 
+## 11. Les marches (`{id}-marche.png`, facultatives)
+
+Le générateur dessine mal une marche au milieu d'une planche complète : les jambes restent écartées dans toutes les images. Une planche de la seule marche corrige ça. Elle remplace la rangée de marche de la planche du méchant ; `tools/build_sprites.py` la lit et lui garde la taille de l'ancienne marche.
+
+Disposition : 8 × 4 (6 × 4 pour le colosse), chaque rangée le même cycle ; seule la 1ʳᵉ rangée est lue. Prompt : la description du méchant, puis le cycle image par image :
+- 1 et 5 : un pied posé devant, l'autre tendu derrière ;
+- 2 et 6 : le poids sur la jambe avant ;
+- 3 et 7 : la jambe arrière passe sous le corps, genou levé, pieds rapprochés ;
+- 4 et 8 : elle se tend vers l'avant.
+
+Pour que le générateur ne les confonde pas, la jambe éloignée est un peu plus sombre. Faites, comme les héros : skinhead, masculiniste, affairiste, homme-TV, mutant, zombie, ninja, colosse, CRS. Le cyber-flic garde sa marche d'origine. La course de l'habitant libéré est faite de la même façon (`decor/habitant-course.png`).
+
 ## À venir
 
 - **Variantes par teinte et réglages**, sans nouvelle planche : CRS bouclier, CRS motard, vigiles (CRS gris), homme-TV écran plat, colosse radioactif, petits mutants.

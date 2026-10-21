@@ -28,8 +28,7 @@ def main(who):
     index = {'persos': {who: {
         'source': 'planches', 'hauteur': h, 'hanches': round(h * bs.LAYOUT['hanches']),
         'manque': [n for n in every if n not in anims],
-        'anims': {n: {'fps': a['fps'], 'loop': a['loop'], 'frames': [bs.entry(f) for f in a['frames']]}
-                  for n, a in anims.items()},
+        'anims': {n: bs.anim_entry(n, a) for n, a in anims.items()},
     }}, 'fx': {}}
     dest.mkdir(parents=True, exist_ok=True)
     atlas.save(dest / f'{who}.png', optimize=True)

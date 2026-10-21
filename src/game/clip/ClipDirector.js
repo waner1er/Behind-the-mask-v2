@@ -14,6 +14,8 @@ const INTENSITY = [20, 105]; // la frénésie des héros monte de 0 à 1 entre c
 const PHRASE_LIFE = 2.6;    // s, une phrase libérée monte et s'efface
 const PHRASE_EVERY = 6;     // s au moins entre deux phrases
 const TV_KEEP = 0.62;       // la grosse TV reste à 62 % de l'écran tant que l'invité n'est pas sorti
+const TV_EARLY = 2;         // s : la caméra arrive devant la TV un peu avant que l'écran éclate
+const TV_RUNUP = 9;         // s avant l'éclat de l'écran : la voie est dégagée jusqu'à la TV
 const SHOP_TV_H = 44;       // la grosse TV dans la vitrine (shop_tv de l'atlas des TV)
 const SHARDS = Array.from({ length: 12 }, (_, k) => `shard${k + 1}`);
 
@@ -68,10 +70,19 @@ export class ClipDirector {
 
   get heroes() { return this.world.heroes; }
 
-  // où devrait en être la caméra à l'heure t
+  // Où devrait en être la caméra à l'heure t : elle avance d'un pas régulier d'un repère au
+  // suivant (le départ ; la grosse TV, à l'heure où son écran éclate ; l'arène du boss), pour
+  // arriver devant la TV juste à temps, sans que Pete l'attende.
   #plannedCam(t) {
-    const { bossAt } = this.clip.pace;
-    return Math.max(0, Math.min(1, (t - this.start) / (bossAt - this.start))) * this.bossX;
+    const { guest, pace } = this.clip, tv = this.bigTv;
+    const marks = [[this.start, 0]];
+    if (tv) marks.push([guest.at - guest.breach - TV_EARLY, tv.x - W * TV_KEEP]);
+    marks.push([pace.bossAt, this.bossX]);
+    const k = marks.findIndex(([at]) => at > t);
+    if (k < 0) return this.bossX;
+    if (k === 0) return 0;
+    const [t0, x0] = marks[k - 1], [t1, x1] = marks[k];
+    return x0 + (x1 - x0) * (t - t0) / (t1 - t0);
   }
 
   update(t, dt) {
@@ -87,9 +98,16 @@ export class ClipDirector {
     if (world.boss && !world.boss.armored) this.#armorBoss(world.boss);
     const ahead = world.cam - this.#plannedCam(t);
     const [i0, i1] = INTENSITY, intensity = Math.max(0, Math.min(1, (t - i0) / (i1 - i0)));
-    const orders = { hold: ahead > 30, push: ahead < -60, intensity };
-    this.late = ahead < -120;
-    this.heroes.forEach((h) => (h.speed = HERO_WALK * (ahead < -150 ? 1.6 : 1)));
+    // En avance, ils ralentissent (ils ne s'arrêtent qu'en grosse avance) et des renforts
+    // viennent à leur rencontre ; en retard, ils foncent.
+    // juste avant l'arrivée de l'invité, le chemin de la TV est dégagé : pas de renfort, et ils
+    // foncent au moindre retard (il doit sortir pile quand il se met à chanter)
+    this.runUp = !this.guest && t > guest.at - guest.breach - TV_RUNUP;
+    const orders = { hold: ahead > 90, push: ahead < (this.runUp ? 0 : -60), intensity };
+    this.late = ahead < (this.runUp ? -20 : -120);
+    this.early = ahead > 20;
+    const pace = ahead < -150 ? 1.6 : ahead > 20 ? 0.55 : 1;
+    this.heroes.forEach((h) => (h.speed = HERO_WALK * pace));
     const inputs = [];
     this.pilots.forEach((p) => (inputs[p.hero.slot] = p.next(dt, world, orders)));
     this.#duo(t, inputs);
@@ -191,9 +209,10 @@ export class ClipDirector {
   // à vider avant le boss, pas de renfort : il faut avancer.
   #reinforce(t, dt) {
     const row = at(this.clip.reinforce, t);
-    if (!row || this.session.state !== 'play' || this.late || (this.session.lock && !this.world.boss)) return;
+    if (!row || this.session.state !== 'play' || this.late || this.runUp || (this.session.lock && !this.world.boss)) return;
     const [, every, cap] = row, world = this.world;
-    if ((this.reinforceT -= dt) > 0) return;
+    // en avance, le renfort suivant arrive deux fois plus vite (il y a de quoi faire en attendant)
+    if ((this.reinforceT -= dt * (this.early ? 2 : 1)) > 0) return;
     if (world.enemies.filter((e) => e.alive()).length >= cap) return;
     this.reinforceT = every;
     const types = this.clip.enemyTypes, type = types[this.spawned % types.length];

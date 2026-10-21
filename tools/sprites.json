@@ -8,11 +8,15 @@
     "baptiste": 78
   },
   "echelles": {
-    "_doc": "Échelle en plus pour une planche dont le perso est dessiné plus petit (ou plus grand) que sur ses déplacements : {perso}-{planche}.",
+    "_doc": "Échelle en plus pour une planche dont le perso est dessiné plus petit (ou plus grand) que sur ses déplacements : {perso}-{planche}. Réglée à l'œil (attente, marche, tir en marchant, tir, lancer côte à côte).",
+    "pierre-marche": 0.9,
+    "pierre-actions": 0.95,
+    "arnaud-marche": 0.9,
     "arnaud-tir": 0.92,
+    "arnaud-actions": 0.85,
+    "baptiste-marche": 1.05,
     "baptiste-tir": 1.1,
-    "arnaud-actions": 0.9,
-    "pierre-actions": 0.9
+    "erwan-marche": 0.88
   },
   "planches": {
     "deplacements": {
@@ -55,6 +59,15 @@
         [3, 1, 2, "hurt", 8, false],
         [3, 3, 4, "death", 6, false],
         [4, 1, 6, "victory", 8, true]
+      ]
+    },
+    "marche": {
+      "_doc": "Facultative : une planche de la seule marche (8 × 4, la même grille que les déplacements, chaque rangée le même cycle), qui remplace celle des déplacements : le modèle d'images dessine mieux une marche seule.",
+      "colonnes": 8,
+      "rangees": 4,
+      "sol": ["walk"],
+      "anims": [
+        [1, 1, 8, "walk", 12, true]
       ]
     }
   },

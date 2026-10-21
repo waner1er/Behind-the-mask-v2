@@ -163,9 +163,11 @@ export class Actor {
     }
     this.#walk(dt);
     this.#fall(dt);
-    // la cadence des pas suit la vitesse (réglée pour une marche à 42 px/s)
-    if (this.vx && !this.blocked) this.walkT += dt * Math.abs(this.vx) / 42;
-    else if (this.depthWalking) this.walkT += dt * DEPTH.speed / 42;   // il marche vers le fond ou l'avant
+    // la cadence des pas suit la distance parcourue, au rythme de l'anim (pace : son temps par
+    // pixel, mesuré sur la planche, voir tools/build_sprites.py) : les pieds ne glissent pas
+    const pace = this.anim(this.#gait(crouch))?.pace ?? 1 / 42;
+    if (this.vx && !this.blocked) this.walkT += dt * Math.abs(this.vx) * pace;
+    else if (this.depthWalking) this.walkT += dt * DEPTH.speed * pace;   // il marche vers le fond ou l'avant
     this.crouching = crouch;
   }
 
@@ -264,13 +266,15 @@ export class Actor {
       if ((this.vx || this.depthWalking) && split) return { legs: this.#loopFrame('walk', this.walkT), torso: shoot };
       return { full: shoot };
     }
-    if (this.vx || this.depthWalking) {
-      // les ennemis ont une course ; les héros, non
-      const gait = Math.abs(this.vx) > 60 && this.p.anims.run ? 'run' : 'walk';
-      return { full: this.#loopFrame(gait, this.walkT) };
-    }
+    if (this.vx || this.depthWalking) return { full: this.#loopFrame(this.#gait(false), this.walkT) };
     if (this.landT < 0.1) return { full: this.#jumpFrame() };
     return { full: this.#loopFrame('idle', this.t) };
+  }
+
+  // l'allure du moment : accroupi, en course (les ennemis ont une course ; les héros, non), en marche
+  #gait(crouch) {
+    if (crouch) return 'crouch_walk';
+    return Math.abs(this.vx) > 60 && this.p.anims.run ? 'run' : 'walk';
   }
 
   // placement dans le niveau

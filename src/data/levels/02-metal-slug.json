@@ -185,11 +185,11 @@
       "at": 150,
       "spawn": [
         {
-          "type": "skinhead",
+          "type": "masculiniste",
           "from": "right"
         },
         {
-          "type": "skinhead",
+          "type": "affairiste",
           "from": "right",
           "delay": 1.4
         }
@@ -199,11 +199,11 @@
       "at": 560,
       "spawn": [
         {
-          "type": "crs",
+          "type": "zombie",
           "from": "right"
         },
         {
-          "type": "skinhead",
+          "type": "ninja",
           "from": "drop",
           "x": 1000,
           "delay": 1
@@ -215,21 +215,21 @@
       "lock": true,
       "spawn": [
         {
-          "type": "skinhead",
+          "type": "mutant",
           "from": "g1"
         },
         {
-          "type": "skinhead",
+          "type": "cyberflic",
           "from": "g1",
           "delay": 1.2
         },
         {
-          "type": "crs",
+          "type": "hommetv",
           "from": "g1",
           "delay": 2.4
         },
         {
-          "type": "crs",
+          "type": "skinhead",
           "from": "right",
           "delay": 3.5
         }
@@ -239,11 +239,11 @@
       "at": 1450,
       "spawn": [
         {
-          "type": "skinhead",
+          "type": "crs",
           "from": "right"
         },
         {
-          "type": "crs",
+          "type": "colosse",
           "from": "left",
           "delay": 1
         }
@@ -253,16 +253,16 @@
       "at": 1900,
       "spawn": [
         {
-          "type": "crs",
+          "type": "masculiniste",
           "from": "right"
         },
         {
-          "type": "skinhead",
+          "type": "affairiste",
           "from": "right",
           "delay": 0.8
         },
         {
-          "type": "skinhead",
+          "type": "zombie",
           "from": "right",
           "delay": 1.6
         }
@@ -274,26 +274,26 @@
       "sub": "SHOOT THEM ALL",
       "spawn": [
         {
-          "type": "skinhead",
+          "type": "ninja",
           "from": "right"
         },
         {
-          "type": "skinhead",
+          "type": "mutant",
           "from": "right",
           "delay": 0.6
         },
         {
-          "type": "crs",
+          "type": "cyberflic",
           "from": "right",
           "delay": 1.5
         },
         {
-          "type": "skinhead",
+          "type": "hommetv",
           "from": "left",
           "delay": 3
         },
         {
-          "type": "crs",
+          "type": "skinhead",
           "from": "left",
           "delay": 4.5
         }
@@ -301,24 +301,23 @@
     },
     {
       "at": 3050,
-      "lock": true,
       "spawn": [
         {
           "type": "crs",
           "from": "g2"
         },
         {
-          "type": "crs",
+          "type": "colosse",
           "from": "g2",
           "delay": 1.5
         },
         {
-          "type": "skinhead",
+          "type": "masculiniste",
           "from": "g2",
           "delay": 3
         },
         {
-          "type": "skinhead",
+          "type": "affairiste",
           "from": "right",
           "delay": 4
         }
@@ -328,16 +327,16 @@
       "at": 3650,
       "spawn": [
         {
-          "type": "skinhead",
+          "type": "zombie",
           "from": "right"
         },
         {
-          "type": "skinhead",
+          "type": "ninja",
           "from": "right",
           "delay": 1
         },
         {
-          "type": "crs",
+          "type": "mutant",
           "from": "right",
           "delay": 2
         }
@@ -347,12 +346,12 @@
       "at": 4050,
       "spawn": [
         {
-          "type": "skinhead",
+          "type": "cyberflic",
           "from": "drop",
           "x": 4150
         },
         {
-          "type": "crs",
+          "type": "hommetv",
           "from": "right",
           "delay": 1.5
         }
@@ -362,7 +361,7 @@
       "at": 4450,
       "spawn": [
         {
-          "type": "crs",
+          "type": "skinhead",
           "from": "right"
         },
         {
@@ -371,7 +370,7 @@
           "delay": 1
         },
         {
-          "type": "skinhead",
+          "type": "colosse",
           "from": "drop",
           "x": 4850,
           "delay": 2

@@ -74,9 +74,9 @@ export class Enemy extends Actor {
         inp.fire = true;
         if (this.burst <= 0) this.burst = c.burst;
       }
-    } else if (c.grenade && adx < c.range * 2.2 && this.grenadeT <= 0) {   // de loin : une grenade
+    } else if (c.grenade && adx < (c.throwRange ?? c.range * 2.2) && this.grenadeT <= 0) {   // de loin : il lance
       inp.lock = true; press.bomb = true;
-      this.grenadeT = 7 + Math.random() * 4;
+      this.grenadeT = (c.throwEvery ?? 7) + Math.random() * 4;
     } else {                                                 // sinon il avance (il court de loin)
       this.speed = adx > 240 ? c.run : c.walk;
       if (this.blocked) press.jump = true;                   // un obstacle : il saute

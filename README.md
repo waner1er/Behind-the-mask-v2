@@ -23,7 +23,7 @@ Les pages ne s'ouvrent que par `npm run dev` (ou par le build) : le navigateur s
 | `galerie.html` | tous les persos de l'atlas en action |
 | `clip.html` | **le clip de démo** sur *Metal Slug* (feat. Guillaume / Circles) : écran de garde, sélection, puis la mission METAL SLUG jouée toute seule et calée sur le morceau, paroles en karaoké, Guillaume qui entre en invité, le boss open-space. Réglages (paroles, allure, invité) : `src/config/clip.js` |
 
-La vidéo du clip (1080p, 60 i/s, avec le morceau) : `npm run dev`, puis `npm run clip:video` (Chrome sans fenêtre, ~5 min) → `clip-metal-slug.mp4`.
+La vidéo du clip (1080p, 60 i/s, avec le morceau) : `npm run dev`, puis `npm run clip:video` (Chrome sans fenêtre, ~5 min) → `clip-metal-slug.mp4`. Le terminal affiche la progression : pourcentage, position dans le morceau, temps écoulé et temps restant.
 
 ## Commandes
 

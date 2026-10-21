@@ -27,8 +27,14 @@
         "hostage_freed": { "cases": [[1, 5], [1, 6]], "fps": 5, "boucle": false },
         "hostage_thanks": { "cases": [[2, 1], [2, 2]], "fps": 4, "boucle": false },
         "hostage_gift": { "cases": [[2, 3], [2, 4], [2, 5]], "fps": 5, "boucle": false },
-        "hostage_bye": [[2, 6]],
-        "hostage_run": { "cases": [[3, 1], [3, 2], [3, 3], [3, 4], [3, 5], [3, 6]], "fps": 12 }
+        "hostage_bye": [[2, 6]]
+      }
+    },
+    "habitant_course": {
+      "fichier": "ressources/sprites/decor/habitant-course.png",
+      "colonnes": 8, "rangees": 4, "echelle": 0.38,
+      "images": {
+        "hostage_run": { "cases": [[1, 1], [1, 2], [1, 3], [1, 4], [1, 5], [1, 6], [1, 7], [1, 8]], "fps": 14 }
       }
     },
     "manager_coque": {

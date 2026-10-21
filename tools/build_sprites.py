@@ -263,6 +263,8 @@ def read_crs(warn):
             aligned.append(f)
         dbg[name] = aligned
         if frames:
+            if name in STEADY:
+                steady(frames)
             anims[name] = {'fps': fps, 'loop': loop, 'frames': frames}
     ctl = (ROOT / spec['source']).parent / '_controle'
     grid = (xs, [b[0] for b in bands] + [bands[-1][1]])
@@ -325,6 +327,8 @@ def read_enemy(who, warn):
             aligned.append(f)
         dbg[name] = aligned
         if frames:
+            if name in STEADY:
+                steady(frames)
             anims[name] = {'fps': fps, 'loop': loop, 'frames': frames}
     control(src, spec, cells, grid, dbg, folder / '_controle' / f'{who}.png')
     return anims
@@ -338,6 +342,87 @@ def feet_x(mask, x0, height):
         xs = np.nonzero(mask)[1]
     return x0 + float(np.median(xs))
 
+
+
+STEADY = ('walk', 'run', 'crouch_walk')   # anims où le corps avance d'un bloc pendant que les jambes bougent
+SHOE = 0.16       # longueur d'une chaussure, en part de la hauteur du perso
+
+
+def steady(frames):
+    """Une marche : l'ancrage suit la tête, pas les pieds, sinon le corps avance et recule de
+    quelques pixels d'une image à l'autre et la marche saccade. La tête : le milieu de la bande
+    du haut de la silhouette (12 %), sous laquelle passent les bras et l'instrument."""
+    centers = []
+    for f in frames:
+        a = np.array(f['img'])[..., 3] > 0
+        rows = np.nonzero(a.any(axis=1))[0]
+        top, h = rows[0], rows[-1] - rows[0] + 1
+        band = a[top:top + max(4, int(h * 0.12))]
+        xs = np.nonzero(band)[1]
+        centers.append(float(np.median(xs)))
+    offset = float(np.median([c - f['ax'] for c, f in zip(centers, frames)]))
+    for c, f in zip(centers, frames):
+        f['ax'] = c - offset
+
+
+def pace(anim):
+    """Le rythme d'une marche pour que les pieds ne glissent pas : le temps d'animation (en s, à
+    son fps) par pixel parcouru. Un cycle (toutes ses images) fait deux pas ; un pas, l'écart des
+    pieds à l'image la plus ouverte, moins une chaussure."""
+    spreads, height = [], 0
+    for f in anim['frames']:
+        a = np.array(f['img'])[..., 3] > 0
+        ay = int(round(f['ay']))
+        feet = a[max(0, ay - 6):ay]
+        cols = np.nonzero(feet.any(axis=0))[0]
+        if len(cols):
+            spreads.append(cols[-1] - cols[0])
+        height = max(height, ay)
+    step = max(8.0, max(spreads, default=0) - SHOE * height)
+    return round(len(anim['frames']) / (2 * step * (anim['fps'] or 10)), 5)
+
+
+def walk_sheet(path, cols, target_h, fps):
+    """Une planche de la seule marche d'un méchant ({id}-marche.png : chaque rangée, le même
+    cycle de `cols` images ; on lit la première). Le perso y est réduit à `target_h` (la hauteur
+    de sa marche d'origine, pour qu'il garde sa taille), les pieds sur la ligne de sol, calé sur
+    la tête (steady)."""
+    src, cells, _ = slice_sheet(path, cols, 4, ENEMY_LINE)
+    row = [cells.get((0, c)) for c in range(cols)]
+    row = [c for c in row if c]
+    if not row:
+        return None
+    hs = [c['box'][3] - c['box'][1] for c in row]
+    s = target_h / float(np.median(hs))
+    base = float(np.median([c['box'][3] for c in row]))
+    frames = []
+    for c in row:
+        x0, y0, x1, y1 = c['box']
+        gx = feet_x(c['mask'], x0, y1 - y0)
+        frames.append({'img': shrink(src, c['box'], c['mask'], s), 'ax': (gx - x0) * s, 'ay': (base - y0) * s, 'g': (gx, base)})
+    steady(frames)
+    return {'fps': fps, 'loop': True, 'frames': frames}
+
+
+def with_walk_sheet(who, anims, cols, warn):
+    """Remplace la marche d'un méchant par celle de sa planche de marche, s'il en a une."""
+    path = ROOT / LAYOUT['ennemis']['dossier'] / f'{who}-marche.png'
+    if not path.exists() or 'walk' not in anims:
+        return
+    old = anims['walk']
+    walk = walk_sheet(path, cols, float(np.median([f['img'].height for f in old['frames']])), old['fps'])
+    if walk:
+        anims['walk'] = walk
+    else:
+        warn.append(f'{who} : planche de marche illisible')
+
+
+def anim_entry(name, a, adjust=lambda k: (0, 0)):
+    """L'entrée d'une anim dans l'index ; une marche y gagne son rythme (pace, voir plus haut)."""
+    e = {'fps': a['fps'], 'loop': a['loop'], 'frames': [entry(f, adjust(k)) for k, f in enumerate(a['frames'])]}
+    if name in STEADY:
+        e['pace'] = pace(a)
+    return e
 
 
 def height(who):
@@ -398,6 +483,8 @@ def read_perso(src_dir, who, ctl_dir, warn):
                 aligned.append(f)
             dbg[name] = aligned
             if frames:
+                if name in STEADY:
+                    steady(frames)
                 anims[name] = {'fps': fps, 'loop': loop, 'frames': frames}
         control(src, spec, cells, grid, dbg, ctl_dir / f'{who}-{k}.png')
     return anims
@@ -724,6 +811,7 @@ def main(src_dir, dest):
     if (ROOT / LAYOUT['crs']['source']).exists():
         crs = read_crs(warn)
         if crs:
+            with_walk_sheet('crs', crs, 8, warn)
             every = [a[3] for a in LAYOUT['crs']['anims']]
             persos['crs'] = crs
             meta['crs'] = {'source': 'crs', 'hauteur': LAYOUT['crs']['hauteur'],
@@ -736,6 +824,7 @@ def main(src_dir, dest):
         anims = read_enemy(who, warn)
         if not anims:
             continue
+        with_walk_sheet(who, anims, enemy_spec(who)['colonnes'], warn)
         every = [a[3] for a in enemy_spec(who)['anims']]
         h = LAYOUT['ennemis']['liste'][who]['hauteur']
         persos[who] = anims
@@ -753,8 +842,7 @@ def main(src_dir, dest):
     index = {'persos': {}, 'fx': {}}
     for who, anims in persos.items():
         index['persos'][who] = {**meta[who], 'anims': {
-            n: {'fps': a['fps'], 'loop': a['loop'],
-                'frames': [entry(f, adjust.get(f'{who}/{n}/{k + 1}', (0, 0))) for k, f in enumerate(a['frames'])]}
+            n: anim_entry(n, a, lambda k, n=n: adjust.get(f'{who}/{n}/{k + 1}', (0, 0)))
             for n, a in anims.items()}}
     index['fx'] = {n: {'fps': a['fps'], 'loop': a['loop'], 'frames': [entry(f) for f in a['frames']]} for n, a in fx.items()}
     dest.mkdir(parents=True, exist_ok=True)
